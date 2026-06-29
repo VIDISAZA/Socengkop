@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, BarChart3, TrendingUp, Users, RefreshCw, Layers, ShieldCheck, HelpCircle } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+const API_URL = "/api";
 
 type SupplyItem = {
   id: number;

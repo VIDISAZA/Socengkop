@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, CheckCircle, Plus, Minus, CreditCard, Sparkles, Tag } from "lucide-react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+const API_URL = "/api";
 
 type Product = {
   id: number;

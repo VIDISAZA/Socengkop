@@ -71,7 +71,7 @@ export default function ProfilePage() {
 
     const fetchSHU = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+        const apiUrl = "/api";
         const res = await fetch(`${apiUrl}/shu/user?userId=${currentUser.id}`);
         const data = await res.json();
         if (data.success) {
