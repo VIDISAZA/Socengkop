@@ -1,34 +1,30 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "SocengKOP MVP",
-  description: "Hackathon Koperasi Merah Putih 2026",
+  title: "SocengKOP — Neo-Koperasi Member Ecosystem",
+  description: "Gamifikasi keanggotaan koperasi untuk akselerasi partisipasi & modernisasi ekosistem koperasi desa. Platform Hackathon Koperasi Merah Putih 2026.",
+  keywords: "koperasi, gamifikasi, SHU, desa, digital, koperasi merah putih",
+  authors: [{ name: "SocengKOP Team" }],
+  openGraph: {
+    title: "SocengKOP — Neo-Koperasi",
+    description: "Gamifikasi keanggotaan koperasi desa modern",
+    type: "website",
+  },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#1a5c2a",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-[#F5F5F5]">
+    <html lang="id">
+      <body>
         <AppProvider>{children}</AppProvider>
       </body>
     </html>

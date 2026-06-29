@@ -4,12 +4,12 @@ import { useAppContext } from "@/context/AppContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle, Target } from "lucide-react";
+import { ArrowLeft, CheckCircle, Target, Sparkles, Share2, Award, Zap } from "lucide-react";
 
 export default function MisiPage() {
   const { currentUser, missions, completeMission } = useAppContext();
   const router = useRouter();
-  const [success, setSuccess] = useState<number | null>(null);
+  const [success, setSuccess] = useState<{ title: string; reward: number } | null>(null);
 
   useEffect(() => {
     if (!currentUser) router.push("/login");
@@ -17,85 +17,192 @@ export default function MisiPage() {
 
   if (!currentUser) return null;
 
-  const handleComplete = (id: number, reward: number) => {
-    completeMission(id);
-    setSuccess(reward);
+  const handleComplete = async (id: number, title: string, reward: number) => {
+    await completeMission(id);
+    setSuccess({ title, reward });
     setTimeout(() => setSuccess(null), 3000);
   };
 
+  const getMissionIcon = (icon?: string) => {
+    switch (icon) {
+      case "shopping_bag": return "🛒";
+      case "group_add": return "📢";
+      case "share": return "🔗";
+      case "star": return "⭐";
+      case "event": return "📊";
+      case "local_fire_department": return "🔥";
+      default: return "🎯";
+    }
+  };
+
+  const activeMissions = missions.filter((m) => m.isActive);
+  const completedMissions = missions.filter((m) => !m.isActive);
+
   return (
-    <div className="max-w-md mx-auto min-h-screen bg-[#F5F5F5]">
+    <div className="page-container pb-28">
       {/* Header */}
-      <div className="bg-white p-4 flex items-center gap-4 sticky top-0 z-10 shadow-sm">
-        <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-full transition">
+      <div className="bg-white p-4 flex items-center gap-4 sticky top-0 z-10 border-b border-gray-100">
+        <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition">
           <ArrowLeft size={20} className="text-gray-700" />
         </Link>
-        <h1 className="font-bold text-gray-800 flex-1">Misi Harian</h1>
+        <h1 className="font-extrabold text-lg text-gray-900 flex-1">Misi Partisipasi</h1>
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-yellow-50 text-yellow-700 border border-yellow-100">
+          <Sparkles size={12} />
+          <span>{currentUser.points.toLocaleString("id-ID")} Pts</span>
+        </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-5">
+        {/* Intro */}
         <div className="mb-6">
-          <h2 className="text-lg font-bold text-gray-800">Selesaikan & Kumpulkan Poin!</h2>
-          <p className="text-sm text-gray-500">Misi diperbarui setiap hari. Semakin aktif, semakin banyak poin.</p>
+          <h2 className="text-xl font-extrabold text-gray-950">Akselerasi Gotong Royong 🌾</h2>
+          <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+            Selesaikan misi keaktifan di bawah ini untuk mendapatkan Poin Partisipasi. Poin Anda secara langsung meningkatkan bagi hasil keuntungan (SHU) Anda di akhir tahun.
+          </p>
         </div>
 
+        {/* Tab / Section Title: Misi Tersedia */}
         <div className="space-y-4">
-          {missions.length === 0 || missions.every(m => !m.isActive) ? (
-            <div className="bg-white p-8 rounded-2xl shadow-sm text-center border border-gray-100">
-              <div className="inline-block bg-green-50 p-4 rounded-full text-green-500 mb-4">
-                <CheckCircle size={32} />
+          <div className="flex items-center gap-2">
+            <Zap size={16} className="text-yellow-500" />
+            <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Misi Aktif Hari Ini</h3>
+          </div>
+
+          {activeMissions.length === 0 ? (
+            <div className="kop-card p-8 text-center bg-green-50/50 border-green-100">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-green-100 rounded-full text-green-600 mb-4 animate-float">
+                <CheckCircle size={28} />
               </div>
-              <h3 className="font-bold text-gray-800 mb-1">Hebat!</h3>
-              <p className="text-sm text-gray-500">Semua misi hari ini sudah diselesaikan.</p>
+              <h3 className="font-bold text-gray-900 mb-1">Semua Misi Selesai!</h3>
+              <p className="text-xs text-gray-500">Anda telah merampungkan semua misi partisipasi hari ini. Kembali besok untuk tantangan baru!</p>
             </div>
           ) : (
-            missions.map(mission => (
-              <div key={mission.id} className={`bg-white rounded-2xl p-5 border transition-all ${mission.isActive ? 'border-gray-100 shadow-sm' : 'border-gray-100 opacity-50 bg-gray-50'}`}>
-                <div className="flex gap-4">
-                  <div className={`mt-1 flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center ${mission.isActive ? 'bg-[#FFC107]/20 text-[#FFC107]' : 'bg-green-100 text-green-600'}`}>
-                    {mission.isActive ? <Target size={20} /> : <CheckCircle size={20} />}
-                  </div>
-                  <div className="flex-1">
-                    <h3 className={`font-bold ${mission.isActive ? 'text-gray-800' : 'text-gray-500 line-through'}`}>{mission.title}</h3>
-                    <p className="text-xs text-gray-500 mt-1 mb-3">{mission.description}</p>
-                    
-                    {mission.isActive ? (
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-[#1B5E20]">+{mission.reward} Poin</span>
+            <div className="space-y-3 stagger">
+              {activeMissions.map((mission) => (
+                <div key={mission.id} className="kop-card p-5 border-gray-100 shadow-sm relative overflow-hidden bg-white">
+                  <div className="flex gap-4">
+                    {/* Mission Icon Badge */}
+                    <div className="w-12 h-12 rounded-2xl bg-gray-50 flex items-center justify-center text-2xl flex-shrink-0 border border-gray-100">
+                      {getMissionIcon(mission.icon)}
+                    </div>
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase bg-yellow-100 text-yellow-800">
+                          {mission.category || "Umum"}
+                        </span>
+                        {mission.reward >= 100 && (
+                          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full uppercase bg-red-100 text-red-700 flex items-center gap-0.5">
+                            <Award size={8} /> High Reward
+                          </span>
+                        )}
+                      </div>
+                      <h4 className="font-bold text-gray-900 text-sm">{mission.title}</h4>
+                      <p className="text-xs text-gray-500 mt-1 mb-4 leading-relaxed">{mission.description}</p>
+                      
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs font-extrabold text-green-700">+{mission.reward} Poin</span>
+                          <span className="text-[10px] text-gray-400 font-medium">SHU</span>
+                        </div>
                         <button
-                          onClick={() => handleComplete(mission.id, mission.reward)}
-                          className="bg-[#1B5E20] hover:bg-[#1B5E20]/90 text-white text-xs font-bold py-2 px-4 rounded-lg transition active:scale-95"
+                          onClick={() => handleComplete(mission.id, mission.title, mission.reward)}
+                          className="bg-green-700 hover:bg-green-800 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-sm transition-all active:scale-95"
                         >
-                          Selesaikan
+                          Klaim Poin
                         </button>
                       </div>
-                    ) : (
-                      <div className="flex items-center gap-1 text-xs font-bold text-green-600">
-                        Selesai <CheckCircle size={12} />
-                      </div>
-                    )}
+                    </div>
                   </div>
                 </div>
+              ))}
+            </div>
+          )}
+
+          {/* Section Title: Misi Selesai */}
+          {completedMissions.length > 0 && (
+            <div className="space-y-4 pt-4">
+              <div className="flex items-center gap-2">
+                <CheckCircle size={16} className="text-green-600" />
+                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Misi Selesai ({completedMissions.length})</h3>
               </div>
-            ))
+
+              <div className="space-y-3 opacity-60">
+                {completedMissions.map((mission) => (
+                  <div key={mission.id} className="kop-card p-4 bg-gray-50/50 border-gray-200">
+                    <div className="flex gap-4 items-center">
+                      <div className="w-10 h-10 rounded-xl bg-gray-200 flex items-center justify-center text-xl flex-shrink-0 text-gray-500">
+                        ✔️
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-gray-600 text-sm line-through">{mission.title}</h4>
+                        <p className="text-xs text-gray-400 mt-0.5">Reward {mission.reward} poin berhasil ditambahkan</p>
+                      </div>
+                      <span className="text-xs font-extrabold text-green-700 bg-green-50 px-2 py-1 rounded-lg">
+                        +{mission.reward} Pts
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Success Toast */}
+      {/* Success Toast Claim */}
       {success !== null && (
-        <div className="fixed bottom-10 left-1/2 -translate-x-1/2 w-[90%] max-w-sm bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 animate-in slide-in-from-bottom-5 fade-in duration-300 z-50">
+        <div className="toast">
           <div className="flex items-center gap-4">
-            <div className="bg-green-100 p-3 rounded-full text-green-600">
-              <CheckCircle size={24} />
+            <div className="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 flex-shrink-0 animate-bounce">
+              <Sparkles size={28} />
             </div>
             <div>
-              <p className="font-bold text-gray-800">Misi Selesai!</p>
-              <p className="text-sm font-bold text-[#1B5E20]">+{success} Poin partisipasi</p>
+              <p className="font-extrabold text-gray-900 text-sm">Misi Berhasil Diselesaikan! 🎉</p>
+              <p className="text-xs font-bold text-[#1a5c2a] mt-0.5">
+                +{success.reward.toLocaleString("id-ID")} Pts ditambahkan untuk &quot;{success.title}&quot;
+              </p>
             </div>
           </div>
         </div>
       )}
+
+      <BottomNav active="/misi" />
     </div>
+  );
+}
+
+function BottomNav({ active }: { active: string }) {
+  const items = [
+    { href: "/dashboard", icon: "🏠", label: "Beranda" },
+    { href: "/belanja", icon: "🛒", label: "Belanja" },
+    { href: "/misi", icon: "🎯", label: "Misi" },
+    { href: "/leaderboard", icon: "🏆", label: "Ranking" },
+    { href: "/profile", icon: "👤", label: "Profil" },
+  ];
+  return (
+    <nav className="bottom-nav">
+      <div className="flex justify-around items-center px-2">
+        {items.map((item) => {
+          const isActive = active === item.href;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all"
+              style={{ minWidth: 52 }}
+            >
+              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
+                {item.icon}
+              </span>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+                {item.label}
+              </span>
+              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+            </Link>
+          );
+        })}
+      </div>
+    </nav>
   );
 }

@@ -36,12 +36,22 @@ export type Mission = {
   description: string;
   reward: number;
   isActive: boolean;
+  icon?: string;
+  category?: string;
+};
+
+export type LeaderboardMember = {
+  id: number;
+  name: string;
+  points: number;
 };
 
 export type LeaderboardEntry = {
   rt: string;
   totalPoints: number;
   rank: number;
+  memberCount?: number;
+  members?: LeaderboardMember[];
 };
 
 const TIERS = [
@@ -94,6 +104,28 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [isLoadingUsers, setIsLoadingUsers] = useState(true);
 
+  const recalculateLeaderboard = (currentUsers: User[]) => {
+    const rtMap = new Map<string, { totalPoints: number; memberCount: number; members: LeaderboardMember[] }>();
+    currentUsers.forEach((u) => {
+      if (!rtMap.has(u.rt)) {
+        rtMap.set(u.rt, { totalPoints: 0, memberCount: 0, members: [] });
+      }
+      const item = rtMap.get(u.rt)!;
+      item.totalPoints += u.points;
+      item.memberCount += 1;
+      item.members.push({ id: u.id, name: u.name, points: u.points });
+    });
+    return Array.from(rtMap.entries())
+      .sort((a, b) => b[1].totalPoints - a[1].totalPoints)
+      .map(([rt, data], index) => ({
+        rt,
+        totalPoints: data.totalPoints,
+        memberCount: data.memberCount,
+        members: data.members.sort((a, b) => b.points - a.points),
+        rank: index + 1
+      }));
+  };
+
   // Fetch initial data from backend
   useEffect(() => {
     const fetchInitialData = async () => {
@@ -112,23 +144,31 @@ export function AppProvider({ children }: { children: ReactNode }) {
         if (missionsData.success) setMissions(missionsData.data);
         if (leaderboardData.success) {
           const sorted = [...leaderboardData.data].sort((a, b) => b.totalPoints - a.totalPoints);
-          setLeaderboard(sorted.map((entry, i) => ({ rt: entry.rt, totalPoints: entry.totalPoints, rank: i + 1 })));
+          setLeaderboard(sorted.map((entry, i) => ({
+            rt: entry.rt,
+            totalPoints: entry.totalPoints,
+            memberCount: entry.memberCount,
+            members: entry.members,
+            rank: i + 1
+          })));
         }
       } catch {
         // Fallback ke mock data jika backend tidak tersambung
         console.warn("Backend tidak tersambung, menggunakan mock data lokal.");
-        setUsers([
+        const fallbackUsers = [
           { id: 1, name: "Siti Rahayu", rt: "RT 01", points: 1250, tier: TIERS[0], tierName: TIERS[0].name, multiplier: TIERS[0].multiplier },
           { id: 2, name: "Ahmad Junaedi", rt: "RT 02", points: 2800, tier: TIERS[1], tierName: TIERS[1].name, multiplier: TIERS[1].multiplier },
           { id: 3, name: "Budi Santoso", rt: "RT 01", points: 890, tier: TIERS[0], tierName: TIERS[0].name, multiplier: TIERS[0].multiplier },
           { id: 4, name: "Dewi Lestari", rt: "RT 03", points: 4200, tier: TIERS[2], tierName: TIERS[2].name, multiplier: TIERS[2].multiplier },
           { id: 5, name: "Rina Marlina", rt: "RT 03", points: 3250, tier: TIERS[1], tierName: TIERS[1].name, multiplier: TIERS[1].multiplier },
-        ]);
+        ];
+        setUsers(fallbackUsers);
         setMissions([
           { id: 1, title: "🛒 Belanja Sembako", description: "Belanja kebutuhan pokok minimal Rp50.000", reward: 50, isActive: true },
           { id: 2, title: "📢 Ajak Tetangga", description: "Undang tetangga bergabung", reward: 100, isActive: true },
           { id: 3, title: "🔗 Share ke WA", description: "Bagikan produk unggulan desa", reward: 30, isActive: true },
         ]);
+        setLeaderboard(recalculateLeaderboard(fallbackUsers));
       } finally {
         setIsLoadingUsers(false);
       }
@@ -154,16 +194,6 @@ export function AppProvider({ children }: { children: ReactNode }) {
     };
     fetchTransactions();
   }, [currentUser?.id]);
-
-  const recalculateLeaderboard = (currentUsers: User[]) => {
-    const rtMap = new Map<string, number>();
-    currentUsers.forEach((u) => {
-      rtMap.set(u.rt, (rtMap.get(u.rt) || 0) + u.points);
-    });
-    return Array.from(rtMap.entries())
-      .sort((a, b) => b[1] - a[1])
-      .map(([rt, totalPoints], index) => ({ rt, totalPoints, rank: index + 1 }));
-  };
 
   const login = (userId: number) => {
     const user = users.find((u) => u.id === userId);
