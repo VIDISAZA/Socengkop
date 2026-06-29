@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, BarChart3, TrendingUp, Users, RefreshCw, Layers, ShieldCheck, HelpCircle } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+
 type SupplyItem = {
   id: number;
   productName: string;
@@ -57,9 +59,9 @@ export default function AdminPage() {
     setLoading(true);
     try {
       const [supplyRes, finRes, partRes] = await Promise.all([
-        fetch("http://localhost:5001/api/admin/supply-chain"),
-        fetch("http://localhost:5001/api/admin/financials"),
-        fetch("http://localhost:5001/api/admin/participation")
+        fetch(`${API_URL}/admin/supply-chain`),
+        fetch(`${API_URL}/admin/financials`),
+        fetch(`${API_URL}/admin/participation`)
       ]);
       const supplyData = await supplyRes.json();
       const finData = await finRes.json();
@@ -83,7 +85,7 @@ export default function AdminPage() {
   const handleSimulateSupply = async (id: number) => {
     setSimulating(true);
     try {
-      const res = await fetch("http://localhost:5001/api/admin/simulate/supply-chain", {
+      const res = await fetch(`${API_URL}/admin/simulate/supply-chain`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id })
@@ -104,7 +106,7 @@ export default function AdminPage() {
     e.preventDefault();
     setSimulating(true);
     try {
-      const res = await fetch("http://localhost:5001/api/admin/simulate/financial", {
+      const res = await fetch(`${API_URL}/admin/simulate/financial`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: simAmount, note: simNote, type: "shopping" })
@@ -126,7 +128,7 @@ export default function AdminPage() {
     e.preventDefault();
     setSimulating(true);
     try {
-      const res = await fetch("http://localhost:5001/api/admin/simulate/participation", {
+      const res = await fetch(`${API_URL}/admin/simulate/participation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId: simUser, missionId: simMission })

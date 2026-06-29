@@ -6,6 +6,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, ShoppingCart, CheckCircle, Plus, Minus, CreditCard, Sparkles, Tag } from "lucide-react";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5001/api";
+
 type Product = {
   id: number;
   name: string;
@@ -35,7 +37,7 @@ export default function BelanjaPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await fetch("http://localhost:5001/api/products");
+        const res = await fetch(`${API_URL}/products`);
         const data = await res.json();
         if (data.success) {
           setProducts(data.data);
