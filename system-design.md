@@ -1,530 +1,152 @@
-# SYSTEM DESIGN
-
-# SocengKOP — Neo-Koperasi Member & Social Engineering Ecosystem
-
-## Hackathon MVP Version 2026
+# Sistem Design – SocengKOP MVP
+**Hackathon Koperasi Merah Putih 2026**
 
 ---
 
-# 1. PROJECT OVERVIEW
+## 1. Arsitektur Sistem (Sederhana)
 
-SocengKOP merupakan platform digital koperasi modern berbasis gamification ecosystem yang dirancang untuk meningkatkan partisipasi anggota koperasi melalui pendekatan behavioral economics, leaderboard komunitas, dan sistem insentif SHU berbasis aktivitas anggota.
+Karena ini MVP untuk hackathon, arsitektur dibuat **sederhana namun scalable** untuk demo.
+┌─────────────────────────────────────────────────────────┐
+│ Frontend (React.js) │
+│ - Tailwind CSS untuk styling │
+│ - Context API untuk state management │
+│ - Axios untuk HTTP request │
+└─────────────────────────────────────────────────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────┐
+│ Backend (Node.js + Express) │
+│ - REST API │
+│ - In-memory data (untuk demo) │
+│ - CORS enabled │
+└─────────────────────────────────────────────────────────┘
+│
+▼
+┌─────────────────────────────────────────────────────────┐
+│ Data Layer (In-Memory) │
+│ - Array of objects (users, transactions, missions) │
+│ - Real-time update │
+│ - Leaderboard aggregation │
+└─────────────────────────────────────────────────────────┘
 
-Platform ini berfungsi sebagai:
-
-* sistem digital koperasi,
-* platform social engagement,
-* marketplace UMKM desa,
-* serta ekosistem partisipasi ekonomi masyarakat.
-
-SocengKOP bertujuan membangun transformasi koperasi desa menuju ekosistem ekonomi digital nasional berbasis gotong royong modern.
-
----
-
-# 2. MVP OBJECTIVES
-
-## Tujuan Utama MVP
-
-### Digitalisasi Koperasi
-
-Mengubah operasional koperasi manual menjadi sistem digital modern.
-
----
-
-### Meningkatkan Engagement Anggota
-
-Mendorong anggota koperasi menjadi aktif melalui sistem gamification dan reward participation.
-
----
-
-### Mendukung UMKM Desa
-
-Membantu pemasaran produk desa melalui marketplace komunitas.
+text
 
 ---
 
-### Transparansi Aktivitas Koperasi
+## 2. Komponen Sistem
 
-Menyediakan dashboard monitoring koperasi dan aktivitas anggota secara realtime.
-
----
-
-# 3. MVP SCOPE
-
-## Included Features
-
-### Authentication
-
-* Login sederhana
-* Session management
-* Role-based access
+| Komponen | Teknologi | Fungsi |
+|----------|-----------|--------|
+| **Frontend** | React.js + Tailwind | UI aplikasi, 5 halaman utama |
+| **Backend API** | Node.js + Express | Endpoint REST untuk data |
+| **Data Storage** | In-Memory Array | Simpan data sementara (mock) |
+| **State Management** | React Context | Global state user & data |
 
 ---
 
-### Dashboard Koperasi
-
-* Statistik anggota
-* Statistik poin
-* Statistik transaksi
-* Aktivitas komunitas
-
----
-
-### Gamification System
-
-* Poin partisipasi
-* Leaderboard komunitas
-* Daily missions
-* Achievement badges
-* Tier membership
-
----
-
-### Marketplace UMKM
-
-* Produk desa
-* Keranjang sederhana
-* Checkout sederhana
-* Riwayat order
-
----
-
-### RAT Digital
-
-* Voting anggota
-* Polling digital
-* Kehadiran RAT
-
----
-
-## Excluded Features (Future Development)
-
-* Payment Gateway
-* QRIS
-* AI Recommendation
-* Blockchain
-* GPS Validation
-* National API Integration
-* Multi-tenant Enterprise SaaS
-
----
-
-# 4. USER ROLES
-
-| Role              | Description                    |
-| ----------------- | ------------------------------ |
-| Super Admin       | Pengelola platform nasional    |
-| Pengurus Koperasi | Pengelola operasional koperasi |
-| Anggota           | Pengguna koperasi              |
-| Vendor/UMKM       | Penjual produk desa            |
-| Pemerintah Desa   | Monitoring koperasi            |
-
----
-
-# 5. SYSTEM ARCHITECTURE
-
-# Frontend Layer
-
-## Technology
-
-* NextJS
-* TailwindCSS
-* Shadcn/UI
-
-## Features
-
-* Responsive dashboard
-* Mobile-first interface
-* Realtime UI interaction
-
----
-
-# Backend Layer
-
-## Technology
-
-* Laravel REST API
-
-## Responsibilities
-
-* Authentication
-* Business logic
-* API services
-* Gamification engine
-* Marketplace management
-
----
-
-# Database Layer
-
-## Technology
-
-* MySQL
-
-## Responsibilities
-
-* User data
-* Transaction data
-* Point system
-* Leaderboard system
-
----
-
-# Hosting Infrastructure
-
-| Layer    | Platform      |
-| -------- | ------------- |
-| Frontend | Vercel        |
-| Backend  | VPS / Railway |
-| Database | MySQL Server  |
-
----
-
-# 6. HIGH LEVEL ARCHITECTURE
-
-Frontend Web App
+## 3. Data Flow
+User pilih akun di Login Page
 ↓
-REST API Server
+
+Context menyimpan user aktif
 ↓
-Business Logic Service
+
+Dashboard fetch data user (poin, tier, rt)
 ↓
-Database Server
 
----
-
-# 7. CORE MODULES
-
----
-
-# 7.1 Authentication Module
-
-## Features
-
-* Login
-* Logout
-* Session authentication
-
-## MVP Notes
-
-Authentication masih menggunakan sistem email dan password sederhana untuk kebutuhan hackathon MVP.
-
----
-
-# 7.2 Dashboard Module
-
-## Features
-
-* Total anggota
-* Total transaksi
-* Total poin komunitas
-* Leaderboard komunitas
-* Grafik aktivitas koperasi
-
----
-
-# 7.3 Gamification Module
-
-## Features
-
-* Daily mission
-* Referral anggota
-* Reward points
-* Leaderboard RT/desa
-* Achievement badges
-
----
-
-# 7.4 Tier Membership Module
-
-## Tier Levels
-
-### Level 1 — Social Connector
-
-* Member baru
-* Aktivitas dasar koperasi
-
-### Level 2 — Growth Champion
-
-* Referral aktif
-* Aktivitas marketplace tinggi
-
-### Level 3 — Ultimate Local Hero
-
-* Kontributor utama koperasi
-* Aktivator komunitas digital
-
----
-
-# 7.5 Marketplace Module
-
-## Features
-
-* List produk UMKM
-* Detail produk
-* Keranjang
-* Checkout sederhana
-* Riwayat transaksi
-
----
-
-# 7.6 RAT Digital Module
-
-## Features
-
-* Voting digital
-* Polling komunitas
-* Kehadiran RAT
-* Komentar anggota
-
----
-
-# 8. DATABASE DESIGN
-
----
-
-# Users Table
-
-| Column   | Type    |
-| -------- | ------- |
-| id       | bigint  |
-| fullname | varchar |
-| email    | varchar |
-| password | varchar |
-| role     | varchar |
-
----
-
-# Members Table
-
-| Column         | Type    |
-| -------------- | ------- |
-| id             | bigint  |
-| user_id        | bigint  |
-| cooperative_id | bigint  |
-| member_level   | varchar |
-| total_points   | integer |
-
----
-
-# Products Table
-
-| Column       | Type    |
-| ------------ | ------- |
-| id           | bigint  |
-| product_name | varchar |
-| price        | decimal |
-| stock        | integer |
-| image        | varchar |
-
----
-
-# Orders Table
-
-| Column    | Type    |
-| --------- | ------- |
-| id        | bigint  |
-| member_id | bigint  |
-| total     | decimal |
-| status    | varchar |
-
----
-
-# Points Table
-
-| Column        | Type    |
-| ------------- | ------- |
-| id            | bigint  |
-| member_id     | bigint  |
-| activity_type | varchar |
-| points        | integer |
-
----
-
-# Voting Table
-
-| Column          | Type    |
-| --------------- | ------- |
-| id              | bigint  |
-| member_id       | bigint  |
-| voting_topic    | varchar |
-| selected_option | varchar |
-
----
-
-# 9. GAMIFICATION FLOW
-
-Member Login
+User melakukan transaksi belanja
 ↓
-Menyelesaikan Aktivitas
+
+Backend hitung poin = (nominal/1000) * multiplier
 ↓
-Mendapatkan Poin
+
+Update total poin user
 ↓
-Naik Level Membership
+
+Leaderboard otomatis re-agregasi
 ↓
-Masuk Leaderboard
-↓
-Mendapatkan Booster SHU
+
+UI update real-time
+
+text
 
 ---
 
-# 10. API STRUCTURE
+## 4. API Endpoints (MVP)
 
-# Authentication API
-
-* POST /api/login
-* POST /api/logout
-
----
-
-# Member API
-
-* GET /api/members
-* POST /api/members
-* GET /api/leaderboard
+| Method | Endpoint | Deskripsi |
+|--------|----------|-----------|
+| GET | `/api/users` | Daftar semua user (untuk login) |
+| GET | `/api/user/:id` | Detail user (poin, tier, rt) |
+| POST | `/api/transaction` | Tambah transaksi belanja |
+| POST | `/api/mission/:id/complete` | Selesaikan misi |
+| GET | `/api/leaderboard/rt` | Ranking RT (5 besar) |
+| GET | `/api/user/:id/transactions` | Riwayat transaksi |
 
 ---
 
-# Marketplace API
+## 5. Struktur Data (Mock)
 
-* GET /api/products
-* POST /api/orders
-* GET /api/orders
+### User
+```javascript
+{
+  id: 1,
+  name: "Siti Rahayu",
+  rt: "RT 01",
+  points: 1250,
+  tier: 1, // 1=Pandu Srawung, 2=Agra Satria, 3=Kamadeva Widya
+  multiplier: 1.0
+}
+Transaction
+javascript
+{
+  id: 1,
+  userId: 1,
+  amount: 50000,
+  pointsEarned: 50,
+  date: "2026-06-29T10:00:00"
+}
+Mission
+javascript
+{
+  id: 1,
+  title: "🛒 Belanja Sembako",
+  description: "Belanja minimal Rp50.000",
+  reward: 50,
+  isActive: true
+}
+Leaderboard RT
+javascript
+{
+  rt: "RT 01",
+  totalPoints: 5230,
+  rank: 2
+}
+6. Perhitungan Poin & Tier
+Formula Poin
+text
+poin = (nominal / 1000) * multiplier
 
----
+Tier 1 (Pandu Srawung)  → multiplier = 1.0
+Tier 2 (Agra Satria)    → multiplier = 1.4
+Tier 3 (Kamadeva Widya) → multiplier = 2.0
+Syarat Naik Tier
+text
+Tier 1 → Tier 2 : 2.000 poin
+Tier 2 → Tier 3 : 5.000 poin
+7. UI/UX Design
+Warna
+Primary: #1B5E20 (hijau tua)
 
-# Gamification API
+Secondary: #FFC107 (emas)
 
-* GET /api/points
-* GET /api/achievements
-* GET /api/missions
+Background: #F5F5F5
 
----
-
-# RAT API
-
-* POST /api/vote
-* GET /api/polling
-
----
-
-# 11. SECURITY ARCHITECTURE
-
-## MVP Security Features
-
-* Password hashing
-* Session validation
-* Input sanitization
-* Role-based access control
-* Basic API protection
-
----
-
-# 12. UI/UX DESIGN CONCEPT
-
-## Design Style
-
-* Modern fintech dashboard
-* Gamification ecosystem
-* Smart village visual concept
-* Nusantara modern branding
-
----
-
-## Main Color Concept
-
-* Red & White (Merah Putih)
-* Emerald Green
-* Gold Accent
-
----
-
-# 13. DEVELOPMENT ROADMAP
-
-# Phase 1 — Hackathon MVP
-
-## Features
-
-* Dashboard
-* Gamification
-* Marketplace
-* RAT digital
-
----
-
-# Phase 2 — Beta System
-
-## Features
-
-* Payment gateway
-* Push notification
-* QRIS integration
-* Multi koperasi support
-
----
-
-# Phase 3 — National Ecosystem
-
-## Features
-
-* AI analytics
-* National cooperative integration
-* Blockchain transparency
-* Smart village ecosystem
-
----
-
-# 14. TECHNOLOGY STACK
-
-| Layer             | Technology   |
-| ----------------- | ------------ |
-| Frontend          | NextJS       |
-| UI Framework      | TailwindCSS  |
-| Component Library | Shadcn/UI    |
-| Backend           | Laravel      |
-| Database          | MySQL        |
-| Hosting           | Vercel + VPS |
-| API               | REST API     |
-
----
-
-# 15. KPI MVP
-
-## Success Indicators
-
-* Jumlah anggota aktif
-* Jumlah referral anggota
-* Jumlah transaksi marketplace
-* Aktivitas RAT digital
-* Pertumbuhan poin komunitas
-
----
-
-# 16. BUSINESS VALUE
-
-## Untuk Koperasi
-
-* Modernisasi sistem
-* Transparansi aktivitas
-* Peningkatan partisipasi anggota
-
----
-
-## Untuk Masyarakat Desa
-
-* Pemberdayaan UMKM
-* Distribusi produk desa
-* Digitalisasi ekonomi lokal
-
----
-
-## Untuk Pemerintah
-
-* Monitoring koperasi
-* Statistik aktivitas koperasi
-* Validasi ekonomi desa
-
----
-
-# 17. CONCLUSION
-
-SocengKOP merupakan platform digital koperasi modern berbasis gamification ecosystem yang dirancang untuk memperkuat partisipasi anggota, meningkatkan loyalitas komunitas, serta mempercepat transformasi koperasi desa menuju ekosistem ekonomi digital nasional berbasis gotong royong modern.
+Halaman
+Halaman	Deskripsi
+Login	Pilih user dari daftar mock
+Dashboard	Poin, tier, progress, misi, posisi RT
+Belanja	Input nominal, hitung poin
+Misi	Daftar misi dengan tombol selesaikan
+Leaderboard	Ranking 5 besar RT
+Profile	Detail user & referral code

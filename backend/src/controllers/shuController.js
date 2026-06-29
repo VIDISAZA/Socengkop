@@ -1,0 +1,1 @@
+exports.getSHUData = (req, res) => res.json({success:true}); exports.getUserSHU = (req, res) => res.json({success:true});

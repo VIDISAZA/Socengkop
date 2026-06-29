@@ -1,0 +1,1 @@
+exports.getProducts = (req, res) => res.json({success: true}); exports.getProductById = (req, res) => res.json({success: true});

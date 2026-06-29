@@ -1,0 +1,1649 @@
+1. backend / package.json
+json
+{
+    "name": "socengkop-backend",
+        "version": "1.0.0",
+            "description": "Backend API untuk SocengKOP MVP - Hackathon Koperasi Merah Putih",
+                "main": "src/app.js",
+                    "scripts": {
+        "start": "node src/app.js",
+            "dev": "nodemon src/app.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+            "cors": "^2.8.5",
+                "dotenv": "^16.3.1",
+                    "morgan": "^1.10.0",
+                        "helmet": "^7.0.0"
+    },
+    "devDependencies": {
+        "nodemon": "^3.0.1"
+    }
+}
+2. backend /.env
+env
+PORT = 5000
+NODE_ENV = development
+3. backend / src / data / tenant.js
+javascript
+// Data Koperasi / Tenant
+const tenant = {
+    id: "kop-001",
+    name: "Koperasi Desa Makmur Sejahtera",
+    alias: "Kopdes Makmur",
+    type: "KUD (Koperasi Unit Desa)",
+    address: {
+        village: "Desa Sumberejo",
+        district: "Kecamatan Ngemplak",
+        regency: "Kabupaten Sleman",
+        province: "DI Yogyakarta",
+        postalCode: "55584"
+    },
+    established: "2015-03-10",
+    status: "Aktif",
+    members: 150,
+    totalAssets: 350000000,
+    logo: "/images/kopdes-makmur.png",
+    contact: {
+        phone: "0274-123456",
+        email: "kopdesmakmur@gmail.com"
+    }
+};
+
+module.exports = tenant;
+4. backend / src / data / users.js
+javascript
+// Data Anggota Koperasi (5 User Demo)
+const users = [
+    {
+        id: 1,
+        name: "Siti Rahayu",
+        phone: "081234567890",
+        rt: "RT 01",
+        rw: "RW 03",
+        points: 1250,
+        tier: 1,
+        tierName: "Pandu Srawung",
+        multiplier: 1.0,
+        joinDate: "2025-01-15",
+        totalTransactions: 12,
+        totalSpent: 1250000,
+        referralCode: "KOP-SR001",
+        referredBy: null,
+        avatar: "/avatars/siti.jpg",
+        isActive: true,
+        missionsCompleted: 5
+    },
+    {
+        id: 2,
+        name: "Ahmad Junaedi",
+        phone: "081234567891",
+        rt: "RT 02",
+        rw: "RW 02",
+        points: 2800,
+        tier: 2,
+        tierName: "Agra Satria",
+        multiplier: 1.4,
+        joinDate: "2024-11-01",
+        totalTransactions: 28,
+        totalSpent: 2800000,
+        referralCode: "KOP-AJ002",
+        referredBy: null,
+        avatar: "/avatars/ahmad.jpg",
+        isActive: true,
+        missionsCompleted: 15
+    },
+    {
+        id: 3,
+        name: "Budi Santoso",
+        phone: "081234567892",
+        rt: "RT 01",
+        rw: "RW 03",
+        points: 1890,
+        tier: 1,
+        tierName: "Pandu Srawung",
+        multiplier: 1.0,
+        joinDate: "2025-02-20",
+        totalTransactions: 18,
+        totalSpent: 1890000,
+        referralCode: "KOP-BS003",
+        referredBy: 1,
+        avatar: "/avatars/budi.jpg",
+        isActive: true,
+        missionsCompleted: 8
+    },
+    {
+        id: 4,
+        name: "Dewi Lestari",
+        phone: "081234567893",
+        rt: "RT 03",
+        rw: "RW 01",
+        points: 4200,
+        tier: 3,
+        tierName: "Kamadeva Widya",
+        multiplier: 2.0,
+        joinDate: "2024-08-10",
+        totalTransactions: 42,
+        totalSpent: 4200000,
+        referralCode: "KOP-DL004",
+        referredBy: null,
+        avatar: "/avatars/dewi.jpg",
+        isActive: true,
+        missionsCompleted: 25
+    },
+    {
+        id: 5,
+        name: "Rina Marlina",
+        phone: "081234567894",
+        rt: "RT 03",
+        rw: "RW 01",
+        points: 3250,
+        tier: 2,
+        tierName: "Agra Satria",
+        multiplier: 1.4,
+        joinDate: "2024-09-25",
+        totalTransactions: 32,
+        totalSpent: 3250000,
+        referralCode: "KOP-RM005",
+        referredBy: 4,
+        avatar: "/avatars/rina.jpg",
+        isActive: true,
+        missionsCompleted: 18
+    }
+];
+
+module.exports = users;
+5. backend / src / data / transactions.js
+javascript
+// Data Transaksi Anggota
+const transactions = [
+    // Siti Rahayu (id:1) - RT 01
+    {
+        id: 1,
+        userId: 1,
+        amount: 50000,
+        pointsEarned: 50,
+        date: "2026-06-28T10:30:00",
+        items: ["Beras 5kg", "Minyak Goreng 1L"],
+        type: "shopping"
+    },
+    {
+        id: 2,
+        userId: 1,
+        amount: 75000,
+        pointsEarned: 75,
+        date: "2026-06-27T14:15:00",
+        items: ["Gula 2kg", "Telur 1kg"],
+        type: "shopping"
+    },
+    {
+        id: 6,
+        userId: 1,
+        amount: 30000,
+        pointsEarned: 30,
+        date: "2026-06-25T09:00:00",
+        items: ["Sabun", "Sampo"],
+        type: "shopping"
+    },
+    {
+        id: 11,
+        userId: 1,
+        amount: 0,
+        pointsEarned: 100,
+        date: "2026-06-20T08:00:00",
+        items: [],
+        type: "referral",
+        note: "Mengajak Budi Santoso bergabung"
+    },
+
+    // Ahmad Junaedi (id:2) - RT 02
+    {
+        id: 3,
+        userId: 2,
+        amount: 100000,
+        pointsEarned: 140,
+        date: "2026-06-28T09:00:00",
+        items: ["Beras 10kg", "Minyak 2L", "Gula 1kg"],
+        type: "shopping"
+    },
+    {
+        id: 7,
+        userId: 2,
+        amount: 150000,
+        pointsEarned: 210,
+        date: "2026-06-26T16:30:00",
+        items: ["Daging Ayam 2kg", "Telur 2kg"],
+        type: "shopping"
+    },
+    {
+        id: 12,
+        userId: 2,
+        amount: 50000,
+        pointsEarned: 70,
+        date: "2026-06-24T11:00:00",
+        items: ["Bumbu Dapur", "Mie Instan"],
+        type: "shopping"
+    },
+
+    // Budi Santoso (id:3) - RT 01
+    {
+        id: 4,
+        userId: 3,
+        amount: 45000,
+        pointsEarned: 45,
+        date: "2026-06-27T11:45:00",
+        items: ["Beras 3kg", "Telur 1/2kg"],
+        type: "shopping"
+    },
+    {
+        id: 8,
+        userId: 3,
+        amount: 60000,
+        pointsEarned: 60,
+        date: "2026-06-25T13:20:00",
+        items: ["Minyak 1L", "Gula 1kg"],
+        type: "shopping"
+    },
+    {
+        id: 13,
+        userId: 3,
+        amount: 30000,
+        pointsEarned: 30,
+        date: "2026-06-22T10:00:00",
+        items: ["Sabun Cuci"],
+        type: "shopping"
+    },
+
+    // Dewi Lestari (id:4) - RT 03
+    {
+        id: 5,
+        userId: 4,
+        amount: 200000,
+        pointsEarned: 400,
+        date: "2026-06-28T07:30:00",
+        items: ["Beras 20kg", "Minyak 4L", "Gula 5kg", "Telur 3kg"],
+        type: "shopping"
+    },
+    {
+        id: 9,
+        userId: 4,
+        amount: 120000,
+        pointsEarned: 240,
+        date: "2026-06-26T08:00:00",
+        items: ["Daging Sapi 1kg", "Sayuran"],
+        type: "shopping"
+    },
+    {
+        id: 14,
+        userId: 4,
+        amount: 0,
+        pointsEarned: 100,
+        date: "2026-06-15T09:00:00",
+        items: [],
+        type: "referral",
+        note: "Mengajak Rina Marlina bergabung"
+    },
+    {
+        id: 16,
+        userId: 4,
+        amount: 0,
+        pointsEarned: 30,
+        date: "2026-06-28T12:00:00",
+        items: [],
+        type: "mission",
+        note: "Menyelesaikan misi: Share ke WA"
+    },
+
+    // Rina Marlina (id:5) - RT 03
+    {
+        id: 10,
+        userId: 5,
+        amount: 85000,
+        pointsEarned: 119,
+        date: "2026-06-27T15:00:00",
+        items: ["Beras 5kg", "Minyak 1L", "Gula 1kg"],
+        type: "shopping"
+    },
+    {
+        id: 15,
+        userId: 5,
+        amount: 0,
+        pointsEarned: 50,
+        date: "2026-06-28T14:00:00",
+        items: [],
+        type: "mission",
+        note: "Menyelesaikan misi: Belanja Sembako"
+    }
+];
+
+module.exports = transactions;
+6. backend / src / data / missions.js
+javascript
+// Data Misi / Tantangan Gamifikasi
+const missions = [
+    {
+        id: 1,
+        title: "🛒 Belanja Sembako",
+        description: "Belanja kebutuhan pokok minimal Rp50.000 di koperasi",
+        reward: 50,
+        icon: "shopping_bag",
+        category: "daily",
+        isActive: true,
+        target: 50000,
+        unit: "rupiah"
+    },
+    {
+        id: 2,
+        title: "📢 Ajak Tetangga",
+        description: "Ajak 1 tetangga untuk bergabung menjadi anggota koperasi (via referral code)",
+        reward: 100,
+        icon: "group_add",
+        category: "social",
+        isActive: true,
+        target: 1,
+        unit: "orang"
+    },
+    {
+        id: 3,
+        title: "🔗 Share ke WA",
+        description: "Bagikan tautan produk unggulan ke WhatsApp atau media sosial",
+        reward: 30,
+        icon: "share",
+        category: "digital",
+        isActive: true,
+        target: 1,
+        unit: "kali"
+    },
+    {
+        id: 4,
+        title: "⭐ Rating Produk",
+        description: "Beri rating dan review untuk produk yang sudah dibeli",
+        reward: 25,
+        icon: "star",
+        category: "digital",
+        isActive: true,
+        target: 1,
+        unit: "produk"
+    },
+    {
+        id: 5,
+        title: "📊 Hadiri RAT Digital",
+        description: "Hadiri Rapat Anggota Tahunan (RAT) secara online dan berikan voting",
+        reward: 150,
+        icon: "event",
+        category: "special",
+        isActive: false,
+        target: 1,
+        unit: "kali"
+    },
+    {
+        id: 6,
+        title: "🔥 Streak Belanja 7 Hari",
+        description: "Belanja di koperasi selama 7 hari berturut-turut",
+        reward: 200,
+        icon: "local_fire_department",
+        category: "daily",
+        isActive: true,
+        target: 7,
+        unit: "hari"
+    }
+];
+
+module.exports = missions;
+7. backend / src / data / leaderboard.js
+javascript
+// Data Leaderboard Antar-RT
+const leaderboardRT = [
+    {
+        rt: "RT 03",
+        rw: "RW 01",
+        totalPoints: 7450,
+        memberCount: 2,
+        members: [
+            { id: 4, name: "Dewi Lestari", points: 4200 },
+            { id: 5, name: "Rina Marlina", points: 3250 }
+        ],
+        rank: 1,
+        icon: "🥇",
+        change: "+1"
+    },
+    {
+        rt: "RT 01",
+        rw: "RW 03",
+        totalPoints: 3140,
+        memberCount: 2,
+        members: [
+            { id: 1, name: "Siti Rahayu", points: 1250 },
+            { id: 3, name: "Budi Santoso", points: 1890 }
+        ],
+        rank: 2,
+        icon: "🥈",
+        change: "0"
+    },
+    {
+        rt: "RT 02",
+        rw: "RW 02",
+        totalPoints: 2800,
+        memberCount: 1,
+        members: [
+            { id: 2, name: "Ahmad Junaedi", points: 2800 }
+        ],
+        rank: 3,
+        icon: "🥉",
+        change: "-1"
+    },
+    {
+        rt: "RT 04",
+        rw: "RW 01",
+        totalPoints: 1200,
+        memberCount: 2,
+        members: [
+            { id: 6, name: "Marni", points: 700 },
+            { id: 7, name: "Slamet", points: 500 }
+        ],
+        rank: 4,
+        icon: "4️⃣",
+        change: "0"
+    },
+    {
+        rt: "RT 05",
+        rw: "RW 04",
+        totalPoints: 450,
+        memberCount: 1,
+        members: [
+            { id: 8, name: "Poniran", points: 450 }
+        ],
+        rank: 5,
+        icon: "5️⃣",
+        change: "0"
+    }
+];
+
+module.exports = leaderboardRT;
+8. backend / src / data / tiers.js
+javascript
+// Data Jenjang Keanggotaan (The Local Heroes League)
+const tiers = [
+    {
+        level: 1,
+        name: "Pandu Srawung",
+        shortName: "Pandu",
+        description: "Perintis & Seni Membaur",
+        philosophy: "Pandu (Perintis/Penunjuk) & Srawung (Seni membaur/bersosialisasi)",
+        minPoints: 0,
+        maxPoints: 1999,
+        multiplier: 1.0,
+        badgeColor: "#4CAF50",
+        badgeIcon: "🌱",
+        criteria: [
+            "Melengkapi profil akun",
+            "Belanja konsisten di bulan pertama",
+            "Menghadiri RAT digital"
+        ],
+        perks: [
+            "Akses dasar koperasi",
+            "Poin standar 1.0×",
+            "Dapat mengikuti misi harian"
+        ],
+        nextTier: "Agra Satria",
+        nextTierPoints: 2000
+    },
+    {
+        level: 2,
+        name: "Agra Satria",
+        shortName: "Satria",
+        description: "Puncak & Ksatria Pembela Kemakmuran",
+        philosophy: "Agra (Puncak tertinggi) & Satria (Ksatria pembela kemakmuran warga)",
+        minPoints: 2000,
+        maxPoints: 4999,
+        multiplier: 1.4,
+        badgeColor: "#FFC107",
+        badgeIcon: "⚔️",
+        criteria: [
+            "Menjaga streak belanja mingguan",
+            "Sukses menjalankan afiliasi tingkat regional"
+        ],
+        perks: [
+            "Booster poin 1.4×",
+            "Akses promo khusus",
+            "Prioritas pelayanan",
+            "Dapat misi khusus"
+        ],
+        nextTier: "Kamadeva Widya",
+        nextTierPoints: 5000
+    },
+    {
+        level: 3,
+        name: "Kamadeva Widya",
+        shortName: "Kamadeva",
+        description: "Simbol Cinta & Kebijaksanaan",
+        philosophy: "Kamadeva (Simbol cinta/keharmonisan komunal), Widya (Kebijaksanaan), Narpati (Pemimpin kemakmuran)",
+        minPoints: 5000,
+        maxPoints: Infinity,
+        multiplier: 2.0,
+        badgeColor: "#F44336",
+        badgeIcon: "👑",
+        criteria: [
+            "Menembus kuota penjualan komoditas desa ke pasar nasional",
+            "Penggerak digitalisasi masif"
+        ],
+        perks: [
+            "Super booster 2.0×",
+            "Hak prioritas aspirasi Rapat Pusat",
+            "Penghargaan tahunan",
+            "Mentor anggota baru",
+            "Akses eksklusif ke program afiliasi"
+        ],
+        nextTier: null,
+        nextTierPoints: null
+    }
+];
+
+module.exports = tiers;
+9. backend / src / data / products.js
+javascript
+// Data Produk Unggulan (Untuk Afiliasi)
+const products = [
+    {
+        id: 1,
+        name: "Beras Organik Sumberejo",
+        price: 14000,
+        unit: "kg",
+        stock: 500,
+        description: "Beras organik dari pertanian warga Desa Sumberejo, bebas pestisida dan dipanen secara tradisional",
+        image: "https://via.placeholder.com/200x200/1B5E20/FFFFFF?text=Beras+Organik",
+        category: "Pangan",
+        producer: "Kelompok Tani Sumberejo",
+        origin: "Desa Sumberejo, Sleman",
+        certifications: ["Organik", "Lokal"],
+        rating: 4.8,
+        totalSold: 250
+    },
+    {
+        id: 2,
+        name: "Gula Kelapa Murni",
+        price: 25000,
+        unit: "kg",
+        stock: 200,
+        description: "Gula kelapa asli produksi rumah tangga, tanpa pemanis buatan dan pewarna",
+        image: "https://via.placeholder.com/200x200/FFC107/FFFFFF?text=Gula+Kelapa",
+        category: "Pangan",
+        producer: "Ibu-ibu PKK Sumberejo",
+        origin: "Desa Sumberejo, Sleman",
+        certifications: ["Halal", "Lokal"],
+        rating: 4.9,
+        totalSold: 180
+    },
+    {
+        id: 3,
+        name: "Kerajinan Anyaman Bambu",
+        price: 150000,
+        unit: "buah",
+        stock: 50,
+        description: "Anyaman bambu khas Sleman, dibuat oleh perajin lokal dengan motif tradisional modern",
+        image: "https://via.placeholder.com/200x200/8D6E63/FFFFFF?text=Anyaman+Bambu",
+        category: "Kerajinan",
+        producer: "Perajin Anyaman Sleman",
+        origin: "Desa Sumberejo, Sleman",
+        certifications: ["Lokal", "Eco-friendly"],
+        rating: 4.7,
+        totalSold: 35
+    },
+    {
+        id: 4,
+        name: "Kopi Arabika Merapi",
+        price: 85000,
+        unit: "250gr",
+        stock: 100,
+        description: "Kopi Arabika premium dari lereng Gunung Merapi, roasted medium dengan rasa fruity",
+        image: "https://via.placeholder.com/200x200/795548/FFFFFF?text=Kopi+Arabika",
+        category: "Minuman",
+        producer: "Petani Kopi Merapi",
+        origin: "Desa Sumberejo, Sleman",
+        certifications: ["Fair Trade", "Lokal"],
+        rating: 4.9,
+        totalSold: 75
+    },
+    {
+        id: 5,
+        name: "Madu Hutan Murni",
+        price: 120000,
+        unit: "500ml",
+        stock: 75,
+        description: "Madu hutan murni dari kawasan pegunungan, tanpa tambahan gula dan pemanis",
+        image: "https://via.placeholder.com/200x200/FF6F00/FFFFFF?text=Madu+Hutan",
+        category: "Kesehatan",
+        producer: "Peternak Lebah Sumberejo",
+        origin: "Desa Sumberejo, Sleman",
+        certifications: ["Organik", "Halal"],
+        rating: 4.9,
+        totalSold: 60
+    }
+];
+
+module.exports = products;
+10. backend / src / data / shu.js
+javascript
+// Data SHU (Sisa Hasil Usaha) - Simulasi
+const shuData = {
+    year: 2025,
+    period: "Januari - Desember 2025",
+    totalSHU: 125000000,
+    distribution: {
+        members: 60,
+        cadangan: 20,
+        pengurus: 10,
+        sosial: 5,
+        pendidikan: 5
+    },
+    memberBonus: [
+        {
+            userId: 4,
+            name: "Dewi Lestari",
+            tier: 3,
+            points: 4200,
+            weight: 0.15,
+            shuAmount: 11250000,
+            rank: 1
+        },
+        {
+            userId: 5,
+            name: "Rina Marlina",
+            tier: 2,
+            points: 3250,
+            weight: 0.12,
+            shuAmount: 9000000,
+            rank: 2
+        },
+        {
+            userId: 2,
+            name: "Ahmad Junaedi",
+            tier: 2,
+            points: 2800,
+            weight: 0.10,
+            shuAmount: 7500000,
+            rank: 3
+        },
+        {
+            userId: 3,
+            name: "Budi Santoso",
+            tier: 1,
+            points: 1890,
+            weight: 0.07,
+            shuAmount: 5250000,
+            rank: 4
+        },
+        {
+            userId: 1,
+            name: "Siti Rahayu",
+            tier: 1,
+            points: 1250,
+            weight: 0.05,
+            shuAmount: 3750000,
+            rank: 5
+        }
+    ],
+    pointToSHU: {
+        formula: "Bobot SHU = (Poin User / Total Poin Seluruh Anggota) × 60% × Total SHU",
+        totalMemberPoints: 13390,
+        totalSHUForMembers: 75000000
+    }
+};
+
+module.exports = shuData;
+11. backend / src / data / index.js
+javascript
+// Data Master - Gabungan Semua Data
+const tenant = require('./tenant');
+const users = require('./users');
+const transactions = require('./transactions');
+const missions = require('./missions');
+const leaderboard = require('./leaderboard');
+const tiers = require('./tiers');
+const products = require('./products');
+const shu = require('./shu');
+
+// Export gabungan
+module.exports = {
+    tenant,
+    users,
+    transactions,
+    missions,
+    leaderboard,
+    tiers,
+    products,
+    shu
+};
+
+// ========== HELPER FUNCTIONS ==========
+
+// Cari user berdasarkan ID
+module.exports.findUserById = (id) => {
+    return users.find(u => u.id === id);
+};
+
+// Cari user berdasarkan nomor HP
+module.exports.findUserByPhone = (phone) => {
+    return users.find(u => u.phone === phone);
+};
+
+// Dapatkan transaksi user
+module.exports.getUserTransactions = (userId) => {
+    return transactions.filter(t => t.userId === userId);
+};
+
+// Dapatkan poin user
+module.exports.getUserPoints = (userId) => {
+    const user = users.find(u => u.id === userId);
+    return user ? user.points : 0;
+};
+
+// Dapatkan leaderboard RT
+module.exports.getLeaderboard = () => {
+    return [...leaderboard].sort((a, b) => a.totalPoints - b.totalPoints);
+};
+
+// Dapatkan misi aktif
+module.exports.getMissions = () => {
+    return missions.filter(m => m.isActive);
+};
+
+// Hitung poin dari transaksi
+module.exports.calculatePoints = (amount, multiplier) => {
+    return Math.floor((amount / 1000) * multiplier);
+};
+
+// Update poin user dan cek kenaikan tier
+module.exports.updateUserPoints = (userId, points) => {
+    const user = users.find(u => u.id === userId);
+    if (!user) return null;
+
+    user.points += points;
+
+    // Cek apakah naik tier
+    const newTier = tiers.find(t => user.points >= t.minPoints && user.points <= t.maxPoints);
+    if (newTier && newTier.level > user.tier) {
+        user.tier = newTier.level;
+        user.tierName = newTier.name;
+        user.multiplier = newTier.multiplier;
+        return { user, tierUp: true, newTier };
+    }
+
+    return { user, tierUp: false };
+};
+
+// Tambah transaksi
+module.exports.addTransaction = (userId, amount, items = [], type = 'shopping', note = '') => {
+    const user = users.find(u => u.id === userId);
+    if (!user) return null;
+
+    const pointsEarned = module.exports.calculatePoints(amount, user.multiplier);
+
+    const newTransaction = {
+        id: transactions.length + 1,
+        userId,
+        amount,
+        pointsEarned,
+        date: new Date().toISOString(),
+        items,
+        type,
+        note
+    };
+
+    transactions.push(newTransaction);
+
+    // Update poin user
+    const result = module.exports.updateUserPoints(userId, pointsEarned);
+
+    return {
+        transaction: newTransaction,
+        user: result.user,
+        tierUp: result.tierUp,
+        newTier: result.newTier
+    };
+};
+
+// Selesaikan misi
+module.exports.completeMission = (userId, missionId) => {
+    const user = users.find(u => u.id === userId);
+    const mission = missions.find(m => m.id === missionId);
+
+    if (!user || !mission || !mission.isActive) return null;
+
+    const pointsEarned = mission.reward;
+    const result = module.exports.updateUserPoints(userId, pointsEarned);
+
+    // Catat misi selesai
+    user.missionsCompleted = (user.missionsCompleted || 0) + 1;
+
+    // Tambah transaksi misi
+    const newTransaction = {
+        id: transactions.length + 1,
+        userId,
+        amount: 0,
+        pointsEarned,
+        date: new Date().toISOString(),
+        items: [],
+        type: 'mission',
+        note: `Menyelesaikan misi: ${mission.title}`
+    };
+
+    transactions.push(newTransaction);
+
+    return {
+        mission: mission,
+        pointsEarned,
+        user: result.user,
+        tierUp: result.tierUp,
+        newTier: result.newTier
+    };
+};
+12. backend / src / controllers / authController.js
+javascript
+const data = require('../data');
+
+// GET semua user (untuk login)
+exports.getUsers = (req, res) => {
+    try {
+        const users = data.users.map(u => ({
+            id: u.id,
+            name: u.name,
+            phone: u.phone,
+            rt: u.rt,
+            points: u.points,
+            tier: u.tier,
+            tierName: u.tierName,
+            avatar: u.avatar,
+            referralCode: u.referralCode
+        }));
+
+        res.json({
+            success: true,
+            data: users,
+            message: 'Data user berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET detail user by ID
+exports.getUserById = (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = data.findUserById(parseInt(id));
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        // Hitung progress ke tier berikutnya
+        const currentTier = data.tiers.find(t => t.level === user.tier);
+        const nextTier = data.tiers.find(t => t.level === user.tier + 1);
+
+        let progress = 100;
+        let nextTierName = null;
+        let nextTierPoints = null;
+
+        if (nextTier) {
+            const pointsInCurrentTier = user.points - currentTier.minPoints;
+            const pointsNeeded = nextTier.minPoints - currentTier.minPoints;
+            progress = Math.min(100, Math.floor((pointsInCurrentTier / pointsNeeded) * 100));
+            nextTierName = nextTier.name;
+            nextTierPoints = nextTier.minPoints;
+        }
+
+        res.json({
+            success: true,
+            data: {
+                ...user,
+                progress,
+                nextTierName,
+                nextTierPoints,
+                currentTierInfo: currentTier
+            },
+            message: 'Data user berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET user by referral code
+exports.getUserByReferral = (req, res) => {
+    try {
+        const { code } = req.params;
+        const user = data.users.find(u => u.referralCode === code);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'Kode referral tidak ditemukan'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                id: user.id,
+                name: user.name,
+                rt: user.rt,
+                referralCode: user.referralCode
+            },
+            message: 'Data referral berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+13. backend / src / controllers / memberController.js
+javascript
+const data = require('../data');
+
+// GET profile user
+exports.getProfile = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        const transactions = data.getUserTransactions(userId);
+        const recentTransactions = transactions.slice(-5).reverse();
+
+        res.json({
+            success: true,
+            data: {
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    phone: user.phone,
+                    rt: user.rt,
+                    rw: user.rw,
+                    points: user.points,
+                    tier: user.tier,
+                    tierName: user.tierName,
+                    multiplier: user.multiplier,
+                    joinDate: user.joinDate,
+                    referralCode: user.referralCode,
+                    referredBy: user.referredBy,
+                    missionsCompleted: user.missionsCompleted,
+                    totalTransactions: user.totalTransactions,
+                    totalSpent: user.totalSpent
+                },
+                recentTransactions
+            },
+            message: 'Profile berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET referral code
+exports.getReferralCode = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                referralCode: user.referralCode,
+                name: user.name,
+                rt: user.rt
+            },
+            message: 'Kode referral berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET tier info
+exports.getTierInfo = (req, res) => {
+    try {
+        const tiers = data.tiers;
+
+        res.json({
+            success: true,
+            data: tiers,
+            message: 'Data tier berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+14. backend / src / controllers / transactionController.js
+javascript
+const data = require('../data');
+
+// POST tambah transaksi belanja
+exports.addTransaction = (req, res) => {
+    try {
+        const { userId, amount, items = [] } = req.body;
+
+        if (!userId || !amount || amount <= 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'userId dan amount (minimal 1) diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        const result = data.addTransaction(userId, amount, items);
+
+        // Update total transaksi user
+        user.totalTransactions = (user.totalTransactions || 0) + 1;
+        user.totalSpent = (user.totalSpent || 0) + amount;
+
+        res.json({
+            success: true,
+            data: {
+                transaction: result.transaction,
+                user: {
+                    id: result.user.id,
+                    name: result.user.name,
+                    points: result.user.points,
+                    tier: result.user.tier,
+                    tierName: result.user.tierName,
+                    multiplier: result.user.multiplier
+                },
+                tierUp: result.tierUp,
+                newTier: result.newTier
+            },
+            message: 'Transaksi berhasil ditambahkan! 🎉'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET riwayat transaksi user
+exports.getTransactionHistory = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const transactions = data.getUserTransactions(userId);
+
+        // Urutkan dari yang terbaru
+        const sorted = [...transactions].sort((a, b) =>
+            new Date(b.date) - new Date(a.date)
+        );
+
+        res.json({
+            success: true,
+            data: sorted,
+            message: 'Riwayat transaksi berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET ringkasan poin user
+exports.getPointSummary = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        const transactions = data.getUserTransactions(userId);
+        const shoppingTransactions = transactions.filter(t => t.type === 'shopping');
+        const missionTransactions = transactions.filter(t => t.type === 'mission');
+        const referralTransactions = transactions.filter(t => t.type === 'referral');
+
+        const totalShopping = shoppingTransactions.reduce((sum, t) => sum + t.amount, 0);
+        const totalPointsFromShopping = shoppingTransactions.reduce((sum, t) => sum + t.pointsEarned, 0);
+        const totalPointsFromMissions = missionTransactions.reduce((sum, t) => sum + t.pointsEarned, 0);
+        const totalPointsFromReferral = referralTransactions.reduce((sum, t) => sum + t.pointsEarned, 0);
+
+        res.json({
+            success: true,
+            data: {
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    totalPoints: user.points,
+                    tier: user.tier,
+                    tierName: user.tierName
+                },
+                summary: {
+                    totalTransactions: transactions.length,
+                    totalShopping: totalShopping,
+                    totalPointsFromShopping,
+                    totalPointsFromMissions,
+                    totalPointsFromReferral,
+                    missionsCompleted: user.missionsCompleted || 0
+                }
+            },
+            message: 'Ringkasan poin berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+15. backend / src / controllers / missionController.js
+javascript
+const data = require('../data');
+
+// GET daftar misi aktif
+exports.getActiveMissions = (req, res) => {
+    try {
+        const missions = data.getMissions();
+
+        res.json({
+            success: true,
+            data: missions,
+            message: 'Data misi berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// POST selesaikan misi
+exports.completeMission = (req, res) => {
+    try {
+        const { userId, missionId } = req.body;
+
+        if (!userId || !missionId) {
+            return res.status(400).json({
+                success: false,
+                message: 'userId dan missionId diperlukan'
+            });
+        }
+
+        const result = data.completeMission(userId, missionId);
+
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: 'User atau misi tidak ditemukan, atau misi tidak aktif'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                mission: result.mission,
+                pointsEarned: result.pointsEarned,
+                user: {
+                    id: result.user.id,
+                    name: result.user.name,
+                    points: result.user.points,
+                    tier: result.user.tier,
+                    tierName: result.user.tierName
+                },
+                tierUp: result.tierUp,
+                newTier: result.newTier
+            },
+            message: `Misi "${result.mission.title}" berhasil diselesaikan! +${result.pointsEarned} poin 🎉`
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+16. backend / src / controllers / leaderboardController.js
+javascript
+const data = require('../data');
+
+// GET leaderboard RT
+exports.getLeaderboard = (req, res) => {
+    try {
+        const leaderboard = data.getLeaderboard();
+
+        // Tambahkan rank
+        const ranked = leaderboard.map((item, index) => ({
+            ...item,
+            rank: index + 1,
+            icon: ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'][index] || '🏅'
+        }));
+
+        res.json({
+            success: true,
+            data: ranked,
+            message: 'Leaderboard berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET detail RT tertentu
+exports.getRTDetail = (req, res) => {
+    try {
+        const { rt } = req.params;
+
+        // Cari leaderboard untuk RT tersebut
+        const leaderboardItem = data.leaderboard.find(l => l.rt === rt);
+
+        if (!leaderboardItem) {
+            return res.status(404).json({
+                success: false,
+                message: 'RT tidak ditemukan'
+            });
+        }
+
+        // Cari anggota di RT tersebut
+        const members = data.users.filter(u => u.rt === rt);
+
+        res.json({
+            success: true,
+            data: {
+                rt: leaderboardItem.rt,
+                rw: leaderboardItem.rw,
+                totalPoints: leaderboardItem.totalPoints,
+                memberCount: leaderboardItem.memberCount,
+                rank: leaderboardItem.rank,
+                icon: leaderboardItem.icon,
+                members: members.map(m => ({
+                    id: m.id,
+                    name: m.name,
+                    points: m.points,
+                    tier: m.tier,
+                    tierName: m.tierName
+                }))
+            },
+            message: 'Data RT berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET posisi RT user
+exports.getUserRTPosition = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        const leaderboard = data.getLeaderboard();
+        const userRT = leaderboard.find(l => l.rt === user.rt);
+
+        if (!userRT) {
+            return res.status(404).json({
+                success: false,
+                message: 'RT user tidak ditemukan di leaderboard'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                rt: userRT.rt,
+                rw: userRT.rw,
+                totalPoints: userRT.totalPoints,
+                rank: userRT.rank,
+                icon: userRT.icon,
+                memberCount: userRT.memberCount,
+                change: userRT.change || '0'
+            },
+            message: 'Posisi RT berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+17. backend / src / controllers / productController.js
+javascript
+const data = require('../data');
+
+// GET semua produk
+exports.getProducts = (req, res) => {
+    try {
+        const products = data.products;
+
+        res.json({
+            success: true,
+            data: products,
+            message: 'Data produk berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET produk by ID
+exports.getProductById = (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = data.products.find(p => p.id === parseInt(id));
+
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Produk tidak ditemukan'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: product,
+            message: 'Data produk berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+18. backend / src / controllers / shuController.js
+javascript
+const data = require('../data');
+
+// GET data SHU
+exports.getSHUData = (req, res) => {
+    try {
+        const shu = data.shu;
+
+        res.json({
+            success: true,
+            data: shu,
+            message: 'Data SHU berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+
+// GET perhitungan SHU untuk user tertentu
+exports.getUserSHU = (req, res) => {
+    try {
+        const userId = parseInt(req.query.userId);
+        if (!userId) {
+            return res.status(400).json({
+                success: false,
+                message: 'Parameter userId diperlukan'
+            });
+        }
+
+        const user = data.findUserById(userId);
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: 'User tidak ditemukan'
+            });
+        }
+
+        const shu = data.shu;
+        const userBonus = shu.memberBonus.find(b => b.userId === userId);
+
+        if (!userBonus) {
+            return res.status(404).json({
+                success: false,
+                message: 'Data SHU untuk user tidak ditemukan'
+            });
+        }
+
+        res.json({
+            success: true,
+            data: {
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    points: user.points,
+                    tier: user.tier,
+                    tierName: user.tierName
+                },
+                shu: {
+                    year: shu.year,
+                    totalSHU: shu.totalSHU,
+                    distribution: shu.distribution,
+                    weight: userBonus.weight,
+                    shuAmount: userBonus.shuAmount,
+                    rank: userBonus.rank
+                }
+            },
+            message: 'Data SHU user berhasil diambil'
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Terjadi kesalahan: ' + error.message
+        });
+    }
+};
+19. backend / src / routes / index.js
+javascript
+const express = require('express');
+const router = express.Router();
+
+// Import controllers
+const authController = require('../controllers/authController');
+const memberController = require('../controllers/memberController');
+const transactionController = require('../controllers/transactionController');
+const missionController = require('../controllers/missionController');
+const leaderboardController = require('../controllers/leaderboardController');
+const productController = require('../controllers/productController');
+const shuController = require('../controllers/shuController');
+
+// ============ AUTH ROUTES ============
+router.get('/users', authController.getUsers);
+router.get('/user/:id', authController.getUserById);
+router.get('/referral/:code', authController.getUserByReferral);
+
+// ============ MEMBER ROUTES ============
+router.get('/profile', memberController.getProfile);
+router.get('/referral-code', memberController.getReferralCode);
+router.get('/tiers', memberController.getTierInfo);
+
+// ============ TRANSACTION ROUTES ============
+router.post('/transaction', transactionController.addTransaction);
+router.get('/transactions', transactionController.getTransactionHistory);
+router.get('/points-summary', transactionController.getPointSummary);
+
+// ============ MISSION ROUTES ============
+router.get('/missions', missionController.getActiveMissions);
+router.post('/mission/complete', missionController.completeMission);
+
+// ============ LEADERBOARD ROUTES ============
+router.get('/leaderboard', leaderboardController.getLeaderboard);
+router.get('/leaderboard/rt/:rt', leaderboardController.getRTDetail);
+router.get('/leaderboard/position', leaderboardController.getUserRTPosition);
+
+// ============ PRODUCT ROUTES ============
+router.get('/products', productController.getProducts);
+router.get('/product/:id', productController.getProductById);
+
+// ============ SHU ROUTES ============
+router.get('/shu', shuController.getSHUData);
+router.get('/shu/user', shuController.getUserSHU);
+
+module.exports = router;
+20. backend / src / app.js
+javascript
+const express = require('express');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const morgan = require('morgan');
+const helmet = require('helmet');
+
+// Load environment variables
+dotenv.config();
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+// Middleware
+app.use(helmet());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(morgan('dev'));
+
+// Routes
+const routes = require('./routes');
+app.use('/api', routes);
+
+// Root route
+app.get('/', (req, res) => {
+    res.json({
+        name: 'SocengKOP API',
+        version: '1.0.0',
+        status: 'Running',
+        endpoints: {
+            users: '/api/users',
+            profile: '/api/profile?userId=1',
+            transactions: '/api/transactions?userId=1',
+            missions: '/api/missions',
+            leaderboard: '/api/leaderboard',
+            products: '/api/products',
+            shu: '/api/shu'
+        }
+    });
+});
+
+// 404 handler
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: 'Endpoint tidak ditemukan'
+    });
+});
+
+// Error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+        success: false,
+        message: 'Terjadi kesalahan pada server: ' + err.message
+    });
+});
+
+// Start server
+app.listen(PORT, () => {
+    console.log(`🚀 SocengKOP Backend running on http://localhost:${PORT}`);
+    console.log(`📊 API Documentation: http://localhost:${PORT}/`);
+    console.log(`👥 Users: http://localhost:${PORT}/api/users`);
+    console.log(`🏆 Leaderboard: http://localhost:${PORT}/api/leaderboard`);
+});
+21. backend / README.md
+markdown
+# SocengKOP Backend API
+
+Backend untuk MVP SocengKOP - Hackathon Koperasi Merah Putih 2026
+
+## 🚀 Quick Start
+
+### Install Dependencies
+    ```bash
+npm install
