@@ -45,7 +45,7 @@ export default function MisiPage() {
         <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition">
           <ArrowLeft size={20} className="text-gray-700" />
         </Link>
-        <h1 className="font-extrabold text-lg text-gray-900 flex-1">Misi Partisipasi</h1>
+        <h1 className="font-extrabold text-lg text-[#3a3a3a] flex-1">Misi Partisipasi</h1>
         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-yellow-50 text-yellow-700 border border-yellow-100">
           <Sparkles size={12} />
           <span>{currentUser.points.toLocaleString("id-ID")} Pts</span>
@@ -69,11 +69,11 @@ export default function MisiPage() {
           </div>
 
           {activeMissions.length === 0 ? (
-            <div className="kop-card p-8 text-center bg-green-50/50 border-green-100">
-              <div className="inline-flex items-center justify-center w-14 h-14 bg-green-100 rounded-full text-green-600 mb-4 animate-float">
+            <div className="kop-card p-8 text-center bg-indigo-50/50 border-indigo-100">
+              <div className="inline-flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-full text-indigo-600 mb-4 animate-float">
                 <CheckCircle size={28} />
               </div>
-              <h3 className="font-bold text-gray-900 mb-1">Semua Misi Selesai!</h3>
+              <h3 className="font-bold text-[#3a3a3a] mb-1">Semua Misi Selesai!</h3>
               <p className="text-xs text-gray-500">Anda telah merampungkan semua misi partisipasi hari ini. Kembali besok untuk tantangan baru!</p>
             </div>
           ) : (
@@ -97,17 +97,17 @@ export default function MisiPage() {
                           </span>
                         )}
                       </div>
-                      <h4 className="font-bold text-gray-900 text-sm">{mission.title}</h4>
+                      <h4 className="font-bold text-[#3a3a3a] text-sm">{mission.title}</h4>
                       <p className="text-xs text-gray-500 mt-1 mb-4 leading-relaxed">{mission.description}</p>
                       
                       <div className="flex justify-between items-center">
                         <div className="flex items-center gap-1">
-                          <span className="text-xs font-extrabold text-green-700">+{mission.reward} Poin</span>
+                          <span className="text-xs font-extrabold text-indigo-700">+{mission.reward} Poin</span>
                           <span className="text-[10px] text-gray-400 font-medium">SHU</span>
                         </div>
                         <button
                           onClick={() => handleComplete(mission.id, mission.title, mission.reward)}
-                          className="bg-green-700 hover:bg-green-800 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-sm transition-all active:scale-95"
+                          className="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold py-2.5 px-4 rounded-xl shadow-sm transition-all active:scale-95"
                         >
                           Klaim Poin
                         </button>
@@ -123,7 +123,7 @@ export default function MisiPage() {
           {completedMissions.length > 0 && (
             <div className="space-y-4 pt-4">
               <div className="flex items-center gap-2">
-                <CheckCircle size={16} className="text-green-600" />
+                <CheckCircle size={16} className="text-indigo-600" />
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Misi Selesai ({completedMissions.length})</h3>
               </div>
 
@@ -138,7 +138,7 @@ export default function MisiPage() {
                         <h4 className="font-bold text-gray-600 text-sm line-through">{mission.title}</h4>
                         <p className="text-xs text-gray-400 mt-0.5">Reward {mission.reward} poin berhasil ditambahkan</p>
                       </div>
-                      <span className="text-xs font-extrabold text-green-700 bg-green-50 px-2 py-1 rounded-lg">
+                      <span className="text-xs font-extrabold text-indigo-700 bg-indigo-50 px-2 py-1 rounded-lg">
                         +{mission.reward} Pts
                       </span>
                     </div>
@@ -158,8 +158,8 @@ export default function MisiPage() {
               <Sparkles size={28} />
             </div>
             <div>
-              <p className="font-extrabold text-gray-900 text-sm">Misi Berhasil Diselesaikan! 🎉</p>
-              <p className="text-xs font-bold text-[#1a5c2a] mt-0.5">
+              <p className="font-extrabold text-[#3a3a3a] text-sm">Misi Berhasil Diselesaikan! 🎉</p>
+              <p className="text-xs font-bold text-[#463cd8] mt-0.5">
                 +{success.reward.toLocaleString("id-ID")} Pts ditambahkan untuk &quot;{success.title}&quot;
               </p>
             </div>
@@ -195,10 +195,10 @@ function BottomNav({ active }: { active: string }) {
               <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#463cd8" : "#9ca3af" }}>
                 {item.label}
               </span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+              {isActive && <div className="w-1 h-1 rounded-full bg-indigo-600" />}
             </Link>
           );
         })}

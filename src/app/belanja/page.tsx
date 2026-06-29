@@ -132,9 +132,9 @@ export default function BelanjaPage() {
         <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition">
           <ArrowLeft size={20} className="text-gray-700" />
         </Link>
-        <h1 className="font-extrabold text-lg text-gray-900 flex-1">Simulasi Belanja</h1>
+        <h1 className="font-extrabold text-lg text-[#3a3a3a] flex-1">Simulasi Belanja</h1>
         <div className="relative">
-          <ShoppingCart size={22} className="text-[#1a5c2a]" />
+          <ShoppingCart size={22} className="text-[#463cd8]" />
           {hasCartItems && (
             <span className="absolute -top-1.5 -right-1.5 bg-yellow-500 text-white font-extrabold text-[10px] w-5 h-5 rounded-full flex items-center justify-center border-2 border-white animate-pulse-glow">
               {Object.values(cart).reduce((a, b) => a + b, 0)}
@@ -149,9 +149,9 @@ export default function BelanjaPage() {
           onClick={() => setActiveTab("products")}
           className="flex-1 py-3 text-sm font-bold rounded-xl transition border-2"
           style={{
-            borderColor: activeTab === "products" ? "#1a5c2a" : "transparent",
+            borderColor: activeTab === "products" ? "#463cd8" : "transparent",
             background: activeTab === "products" ? "#e8f5e9" : "white",
-            color: activeTab === "products" ? "#1a5c2a" : "#6b7280",
+            color: activeTab === "products" ? "#463cd8" : "#6b7280",
           }}
         >
           📦 Produk Unggulan
@@ -160,9 +160,9 @@ export default function BelanjaPage() {
           onClick={() => setActiveTab("custom")}
           className="flex-1 py-3 text-sm font-bold rounded-xl transition border-2"
           style={{
-            borderColor: activeTab === "custom" ? "#1a5c2a" : "transparent",
+            borderColor: activeTab === "custom" ? "#463cd8" : "transparent",
             background: activeTab === "custom" ? "#e8f5e9" : "white",
-            color: activeTab === "custom" ? "#1a5c2a" : "#6b7280",
+            color: activeTab === "custom" ? "#463cd8" : "#6b7280",
           }}
         >
           ✏️ Input Manual
@@ -180,7 +180,7 @@ export default function BelanjaPage() {
 
             {loadingProducts ? (
               <div className="flex flex-col items-center justify-center py-20 gap-3">
-                <div className="w-10 h-10 border-3 border-green-200 border-t-green-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
+                <div className="w-10 h-10 border-3 border-indigo-200 border-t-indigo-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
                 <p className="text-sm text-gray-500">Memuat katalog...</p>
               </div>
             ) : (
@@ -200,12 +200,12 @@ export default function BelanjaPage() {
 
                       {/* Details */}
                       <div className="flex-1 min-w-0">
-                        <span className="text-[9px] font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full inline-block mb-1">
+                        <span className="text-[9px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full inline-block mb-1">
                           {product.category}
                         </span>
-                        <h4 className="font-bold text-gray-900 text-sm truncate">{product.name}</h4>
+                        <h4 className="font-bold text-[#3a3a3a] text-sm truncate">{product.name}</h4>
                         <p className="text-xs text-gray-500 mt-0.5">Oleh: {product.producer}</p>
-                        <p className="text-sm font-extrabold text-gray-900 mt-1">
+                        <p className="text-sm font-extrabold text-[#3a3a3a] mt-1">
                           Rp {product.price.toLocaleString("id-ID")}<span className="text-[10px] text-gray-400 font-normal"> / {product.unit}</span>
                         </p>
                       </div>
@@ -220,12 +220,12 @@ export default function BelanjaPage() {
                             >
                               <Minus size={14} />
                             </button>
-                            <span className="font-extrabold text-sm text-gray-800 w-4 text-center">{qty}</span>
+                            <span className="font-extrabold text-sm text-[#3a3a3a] w-4 text-center">{qty}</span>
                           </>
                         ) : null}
                         <button
                           onClick={() => handleAddToCart(product.id)}
-                          className="w-8 h-8 rounded-lg bg-green-700 hover:bg-green-800 flex items-center justify-center text-white font-bold transition active:scale-90"
+                          className="w-8 h-8 rounded-lg bg-indigo-700 hover:bg-indigo-800 flex items-center justify-center text-white font-bold transition active:scale-90"
                         >
                           <Plus size={14} />
                         </button>
@@ -238,7 +238,7 @@ export default function BelanjaPage() {
           </div>
         ) : (
           <div className="kop-card p-6">
-            <h3 className="font-bold text-gray-800 text-base mb-2">Belanja Langsung</h3>
+            <h3 className="font-bold text-[#3a3a3a] text-base mb-2">Belanja Langsung</h3>
             <p className="text-xs text-gray-500 mb-6">
               Gunakan formulir ini untuk merekam transaksi yang dilakukan langsung di toko offline koperasi.
             </p>
@@ -250,7 +250,7 @@ export default function BelanjaPage() {
                   type="text"
                   value={customAmount}
                   onChange={(e) => setCustomAmount(formatRupiah(e.target.value))}
-                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-2xl py-4 pl-12 pr-4 text-2xl font-extrabold text-gray-900 focus:outline-none focus:border-green-700 transition"
+                  className="w-full bg-gray-50 border-2 border-gray-200 rounded-2xl py-4 pl-12 pr-4 text-2xl font-extrabold text-[#3a3a3a] focus:outline-none focus:border-indigo-700 transition"
                   placeholder="0"
                   required
                 />
@@ -263,7 +263,7 @@ export default function BelanjaPage() {
                     <Sparkles size={16} className="text-yellow-600" />
                     <span className="text-xs font-bold text-gray-700">Estimasi Poin (x{multiplier}):</span>
                   </div>
-                  <span className="font-extrabold text-base text-[#1a5c2a]">
+                  <span className="font-extrabold text-base text-[#463cd8]">
                     +{Math.floor(Math.floor(parseInt(customAmount.replace(/\D/g, "") || "0", 10) / 1000) * multiplier)} Pts
                   </span>
                 </div>
@@ -287,12 +287,12 @@ export default function BelanjaPage() {
           <div className="flex justify-between items-center mb-4">
             <div>
               <p className="text-xs text-gray-400 font-medium">Total Pembelanjaan</p>
-              <h3 className="text-xl font-extrabold text-gray-900">
+              <h3 className="text-xl font-extrabold text-[#3a3a3a]">
                 Rp {cartTotal.toLocaleString("id-ID")}
               </h3>
             </div>
             <div className="text-right">
-              <div className="flex items-center gap-1.5 text-xs text-green-700 font-bold bg-green-50 px-3 py-1.5 rounded-xl border border-green-100">
+              <div className="flex items-center gap-1.5 text-xs text-indigo-700 font-bold bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-100">
                 <Tag size={12} />
                 <span>+{Math.floor(Math.floor(cartTotal / 1000) * multiplier)} Poin</span>
               </div>
@@ -313,12 +313,12 @@ export default function BelanjaPage() {
       {success !== null && (
         <div className="toast">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
               <CheckCircle size={28} />
             </div>
             <div>
-              <p className="font-extrabold text-gray-900 text-sm">Transaksi Berhasil direkam!</p>
-              <p className="text-xs font-bold text-[#1a5c2a] mt-0.5">+{success.toLocaleString("id-ID")} Poin partisipasi telah ditambahkan.</p>
+              <p className="font-extrabold text-[#3a3a3a] text-sm">Transaksi Berhasil direkam!</p>
+              <p className="text-xs font-bold text-[#463cd8] mt-0.5">+{success.toLocaleString("id-ID")} Poin partisipasi telah ditambahkan.</p>
             </div>
           </div>
         </div>
@@ -352,10 +352,10 @@ function BottomNav({ active }: { active: string }) {
               <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#463cd8" : "#9ca3af" }}>
                 {item.label}
               </span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+              {isActive && <div className="w-1 h-1 rounded-full bg-indigo-600" />}
             </Link>
           );
         })}

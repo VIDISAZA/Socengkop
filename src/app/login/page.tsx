@@ -23,12 +23,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="page-container flex flex-col" style={{ background: "linear-gradient(160deg, #0d3318 0%, #1a5c2a 40%, #0d3318 100%)" }}>
+    <div className="page-container flex flex-col" style={{ background: "linear-gradient(160deg, #1a1464 0%, #463cd8 40%, #1a1464 100%)" }}>
       {/* Background decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full" style={{ background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)" }} />
-        <div className="absolute top-40 -left-20 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(45,138,71,0.2) 0%, transparent 70%)" }} />
-        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(26,92,42,0.3) 0%, transparent 70%)" }} />
+        <div className="absolute top-40 -left-20 w-64 h-64 rounded-full" style={{ background: "radial-gradient(circle, rgba(95,85,232,0.2) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-0 right-0 w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(70,60,216,0.3) 0%, transparent 70%)" }} />
       </div>
 
       {/* Hero Section */}
@@ -39,18 +39,14 @@ export default function LoginPage() {
             <span className="text-4xl">🌾</span>
           </div>
           <h1 className="text-4xl font-extrabold text-white mb-2 tracking-tight">SocengKOP</h1>
-          <p className="text-green-200 text-sm font-medium mb-4">Neo-Koperasi Member Ecosystem</p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold" style={{ background: "rgba(245,158,11,0.2)", border: "1px solid rgba(245,158,11,0.4)", color: "#fbbf24" }}>
-            <span>🏆</span>
-            <span>Hackathon Koperasi Merah Putih 2026</span>
-          </div>
+          <p className="text-indigo-200 text-sm font-medium mb-4">Neo-Koperasi Member Ecosystem</p>
         </div>
 
         {/* Tagline */}
         <div className="text-center mb-8 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
           <p className="text-white/70 text-sm leading-relaxed">
             Gamifikasi keanggotaan koperasi untuk<br />
-            <span className="text-green-300 font-semibold">akselerasi partisipasi & kemakmuran bersama</span>
+            <span className="text-indigo-300 font-semibold">akselerasi partisipasi & kemakmuran bersama</span>
           </p>
         </div>
 
@@ -58,18 +54,49 @@ export default function LoginPage() {
         <div className="animate-fade-in-up" style={{ animationDelay: "200ms" }}>
           <div className="rounded-3xl p-6" style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(20px)", boxShadow: "0 24px 64px rgba(0,0,0,0.3)" }}>
             <div className="flex items-center gap-2 mb-5">
-              <div className="w-1 h-5 rounded-full bg-green-600" />
+              <div className="w-1 h-5 rounded-full bg-indigo-600" />
               <p className="text-sm font-bold text-gray-600 uppercase tracking-wider">Pilih Akun Demo</p>
             </div>
 
             {isLoadingUsers ? (
               <div className="flex flex-col items-center justify-center py-10 gap-3">
-                <div className="w-10 h-10 border-3 border-green-200 border-t-green-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
+                <div className="w-10 h-10 border-3 border-indigo-200 border-t-indigo-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
                 <p className="text-sm text-gray-500">Memuat data anggota...</p>
               </div>
             ) : (
               <div className="space-y-3 stagger">
-                {users.map((user) => {
+                {/* Admin Direct Option */}
+                <button
+                  onClick={() => {
+                    setSelecting(999);
+                    login(999);
+                    setTimeout(() => router.push("/admin"), 300);
+                  }}
+                  disabled={selecting !== null}
+                  className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all duration-200 animate-fade-in-up"
+                  style={{
+                    borderColor: selecting === 999 ? "#463cd8" : "transparent",
+                    background: selecting === 999 ? "#f0fdf4" : "#e8f5e9",
+                    transform: selecting === 999 ? "scale(0.98)" : "scale(1)",
+                  }}
+                >
+                  <div className="relative flex-shrink-0">
+                    <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-extrabold text-white bg-indigo-800">
+                      🛠️
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-indigo-900 text-base">Admin Koperasi</p>
+                    <p className="text-xs text-indigo-700">Akses Penuh · 4 Alur Utama</p>
+                  </div>
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-lg bg-indigo-200 text-indigo-900">
+                    Staf / Pengurus
+                  </span>
+                </button>
+
+                <div className="h-px bg-gray-200 my-2" />
+
+                {users.filter(u => u.tier.level !== 3).map((user) => {
                   const tier = TIER_CONFIG[user.tier.level as keyof typeof TIER_CONFIG] || TIER_CONFIG[1];
                   const isSelecting = selecting === user.id;
 
@@ -80,14 +107,14 @@ export default function LoginPage() {
                       disabled={selecting !== null}
                       className="w-full flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-all duration-200 animate-fade-in-up"
                       style={{
-                        borderColor: isSelecting ? "#1a5c2a" : "transparent",
+                        borderColor: isSelecting ? "#463cd8" : "transparent",
                         background: isSelecting ? "#f0fdf4" : "#f9fafb",
                         transform: isSelecting ? "scale(0.98)" : "scale(1)",
                       }}
                     >
                       {/* Avatar */}
                       <div className="relative flex-shrink-0">
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-extrabold text-white" style={{ background: "linear-gradient(135deg, #1a5c2a, #2d8a47)" }}>
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-xl font-extrabold text-white" style={{ background: "linear-gradient(135deg, #463cd8, #5f55e8)" }}>
                           {user.name.charAt(0)}
                         </div>
                         <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs" style={{ background: tier.bg, border: "2px solid white" }}>
@@ -97,7 +124,7 @@ export default function LoginPage() {
 
                       {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <p className="font-bold text-gray-900 text-base">{user.name}</p>
+                        <p className="font-bold text-[#3a3a3a] text-base">{user.name}</p>
                         <p className="text-xs text-gray-500">{user.rt} · {user.points.toLocaleString("id-ID")} Poin</p>
                       </div>
 
@@ -146,12 +173,12 @@ export default function LoginPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-2xl">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-50 flex items-center justify-center text-2xl">
                   {feat.icon}
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-gray-900 text-base">{feat.title}</h3>
-                  <p className="text-[10px] text-green-700 font-bold uppercase tracking-wider">{feat.subtitle}</p>
+                  <h3 className="font-extrabold text-[#3a3a3a] text-base">{feat.title}</h3>
+                  <p className="text-[10px] text-indigo-700 font-bold uppercase tracking-wider">{feat.subtitle}</p>
                 </div>
               </div>
               <p className="text-xs text-gray-600 leading-relaxed mb-6">
@@ -159,7 +186,7 @@ export default function LoginPage() {
               </p>
               <button
                 onClick={() => setSelectedFeature(null)}
-                className="w-full py-3 bg-green-700 hover:bg-green-800 text-white font-bold text-xs rounded-xl shadow-md transition active:scale-95"
+                className="w-full py-3 bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs rounded-xl shadow-md transition active:scale-95"
               >
                 Mengerti &amp; Tutup
               </button>

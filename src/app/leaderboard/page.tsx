@@ -62,7 +62,7 @@ export default function LeaderboardPage() {
             <Trophy size={36} className="text-yellow-400" />
           </div>
           <h2 className="text-2xl font-extrabold tracking-tight">Leaderboard Komunitas</h2>
-          <p className="text-green-200 text-xs mt-1 leading-relaxed">
+          <p className="text-indigo-200 text-xs mt-1 leading-relaxed">
             Kompetisi sehat antar-RT untuk meningkatkan keaktifan gotong royong &amp; partisipasi belanja.
           </p>
         </div>
@@ -75,7 +75,7 @@ export default function LeaderboardPage() {
               <div className="flex flex-col items-center flex-1 animate-fade-in-up" style={{ animationDelay: "100ms" }}>
                 <span className="text-2xl">🥈</span>
                 <p className="text-xs font-bold text-white truncate max-w-[80px] mt-1">{podium[1].rt}</p>
-                <p className="text-[10px] text-green-200 font-extrabold">{podium[1].totalPoints.toLocaleString("id-ID")} pts</p>
+                <p className="text-[10px] text-indigo-200 font-extrabold">{podium[1].totalPoints.toLocaleString("id-ID")} pts</p>
                 <div className="w-full bg-white/10 border-t border-white/20 rounded-t-xl mt-3 flex items-center justify-center font-extrabold text-white text-base" style={{ height: 60 }}>
                   2
                 </div>
@@ -99,7 +99,7 @@ export default function LeaderboardPage() {
               <div className="flex flex-col items-center flex-1 animate-fade-in-up" style={{ animationDelay: "200ms" }}>
                 <span className="text-2xl">🥉</span>
                 <p className="text-xs font-bold text-white truncate max-w-[80px] mt-1">{podium[2].rt}</p>
-                <p className="text-[10px] text-green-200 font-extrabold">{podium[2].totalPoints.toLocaleString("id-ID")} pts</p>
+                <p className="text-[10px] text-indigo-200 font-extrabold">{podium[2].totalPoints.toLocaleString("id-ID")} pts</p>
                 <div className="w-full bg-white/5 border-t border-white/10 rounded-t-xl mt-3 flex items-center justify-center font-extrabold text-white text-sm" style={{ height: 45 }}>
                   3
                 </div>
@@ -112,7 +112,7 @@ export default function LeaderboardPage() {
       {/* Ranks list */}
       <div className="px-5 mt-6">
         <div className="flex items-center gap-2 mb-3">
-          <Users size={16} className="text-green-700" />
+          <Users size={16} className="text-indigo-700" />
           <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Peringkat Lengkap RT</h3>
         </div>
 
@@ -126,8 +126,8 @@ export default function LeaderboardPage() {
                 key={entry.rt}
                 className="kop-card overflow-hidden bg-white border-gray-100"
                 style={{
-                  boxShadow: isMyRt ? "0 4px 20px rgba(26,92,42,0.1)" : "0 1px 3px rgba(0,0,0,0.04)",
-                  borderColor: isMyRt ? "#1a5c2a40" : "rgba(0,0,0,0.06)",
+                  boxShadow: isMyRt ? "0 4px 20px rgba(70,60,216,0.1)" : "0 1px 3px rgba(0,0,0,0.04)",
+                  borderColor: isMyRt ? "#463cd840" : "rgba(0,0,0,0.06)",
                 }}
               >
                 {/* Header Row */}
@@ -142,10 +142,10 @@ export default function LeaderboardPage() {
                     </div>
 
                     <div>
-                      <h4 className="font-extrabold text-gray-900 text-sm flex items-center gap-1.5">
+                      <h4 className="font-extrabold text-[#3a3a3a] text-sm flex items-center gap-1.5">
                         {entry.rt}
                         {isMyRt && (
-                          <span className="text-[9px] font-bold text-white bg-green-700 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                          <span className="text-[9px] font-bold text-white bg-indigo-700 px-2 py-0.5 rounded-full uppercase tracking-wider">
                             RT Anda
                           </span>
                         )}
@@ -158,7 +158,7 @@ export default function LeaderboardPage() {
 
                   <div className="flex items-center gap-3">
                     <div className="text-right">
-                      <p className="font-extrabold text-gray-900 text-sm">{entry.totalPoints.toLocaleString("id-ID")} pts</p>
+                      <p className="font-extrabold text-[#3a3a3a] text-sm">{entry.totalPoints.toLocaleString("id-ID")} pts</p>
                       <p className="text-[9px] text-gray-400 font-bold uppercase tracking-wider">Total Poin</p>
                     </div>
                     {entry.members && entry.members.length > 0 ? (
@@ -177,7 +177,7 @@ export default function LeaderboardPage() {
                           <span className="text-xs font-bold text-gray-400 w-4">{idx + 1}.</span>
                           <p className="text-xs font-semibold text-gray-700 truncate">{member.name}</p>
                         </div>
-                        <span className="text-xs font-bold text-green-700">
+                        <span className="text-xs font-bold text-indigo-700">
                           {member.points.toLocaleString("id-ID")} pts
                         </span>
                       </div>
@@ -194,11 +194,11 @@ export default function LeaderboardPage() {
       <div className="px-5 mt-6 mb-2">
         <div className="kop-card p-5" style={{ background: "linear-gradient(135deg,#e8f5e9,#f0fdf4)" }}>
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={16} className="text-green-700" />
-            <h4 className="font-bold text-gray-900 text-sm">Dampak Keaktifan RT</h4>
+            <Sparkles size={16} className="text-indigo-700" />
+            <h4 className="font-bold text-[#3a3a3a] text-sm">Dampak Keaktifan RT</h4>
           </div>
           <p className="text-xs text-gray-600 leading-relaxed">
-            Peringkat dihitung berdasarkan total akumulasi Poin Partisipasi dari seluruh anggota yang terdaftar di masing-masing RT. RT dengan kontribusi teraktif akan mendapatkan <span className="font-bold text-green-700">prioritas usulan pembangunan fasilitas desa</span> pada RAT Pusat!
+            Peringkat dihitung berdasarkan total akumulasi Poin Partisipasi dari seluruh anggota yang terdaftar di masing-masing RT. RT dengan kontribusi teraktif akan mendapatkan <span className="font-bold text-indigo-700">prioritas usulan pembangunan fasilitas desa</span> pada RAT Pusat!
           </p>
         </div>
       </div>
@@ -228,13 +228,13 @@ function BottomNav({ active }: { active: string }) {
               className="flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all"
               style={{ minWidth: 52 }}
             >
-              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
+              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(70,60,216,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#463cd8" : "#9ca3af" }}>
                 {item.label}
               </span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+              {isActive && <div className="w-1 h-1 rounded-full bg-indigo-600" />}
             </Link>
           );
         })}

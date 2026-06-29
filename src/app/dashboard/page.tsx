@@ -48,7 +48,7 @@ export default function DashboardPage() {
   return (
     <div className="page-container pb-24">
       {/* ─── HERO HEADER ─── */}
-      <div className="relative overflow-hidden" style={{ background: "linear-gradient(145deg, #0d3318 0%, #1a5c2a 60%, #145c27 100%)", borderRadius: "0 0 32px 32px" }}>
+      <div className="relative overflow-hidden" style={{ background: "linear-gradient(145deg, #1a1464 0%, #463cd8 60%, #2d24b0 100%)", borderRadius: "0 0 32px 32px" }}>
         {/* decorative circles */}
         <div className="absolute -top-10 -right-10 w-48 h-48 rounded-full opacity-20" style={{ background: "radial-gradient(circle, #fbbf24, transparent)" }} />
         <div className="absolute -bottom-6 -left-6 w-36 h-36 rounded-full opacity-10" style={{ background: "radial-gradient(circle, white, transparent)" }} />
@@ -57,9 +57,9 @@ export default function DashboardPage() {
           {/* Top bar */}
           <div className="flex justify-between items-start mb-6">
             <div>
-              <p className="text-green-300 text-sm mb-1">Selamat datang, 👋</p>
+              <p className="text-indigo-300 text-sm mb-1">Selamat datang, 👋</p>
               <h1 className="text-2xl font-extrabold text-white">{currentUser.name}</h1>
-              <p className="text-green-400 text-xs mt-0.5">{currentUser.rt} · {currentUser.tierName}</p>
+              <p className="text-indigo-400 text-xs mt-0.5">{currentUser.rt} · {currentUser.tierName}</p>
             </div>
             <div className="flex items-center gap-2">
               <Link href="/profile" className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(255,255,255,0.12)" }}>
@@ -75,30 +75,30 @@ export default function DashboardPage() {
           <div className="rounded-2xl p-5 mb-4" style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.15)", backdropFilter: "blur(12px)" }}>
             <div className="flex justify-between items-start mb-4">
               <div>
-                <p className="text-green-200 text-xs uppercase tracking-wider mb-1">Total Poin Partisipasi</p>
+                <p className="text-indigo-200 text-xs uppercase tracking-wider mb-1">Total Poin Partisipasi</p>
                 <p className="text-4xl font-extrabold text-white animate-count-up">{currentUser.points.toLocaleString("id-ID")}</p>
-                <p className="text-green-300 text-xs mt-1">≈ {shuBobot}% bobot SHU tahun ini</p>
+                <p className="text-indigo-300 text-xs mt-1">≈ {shuBobot}% bobot SHU tahun ini</p>
               </div>
               <div className="text-right">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl font-bold text-xs" style={{ background: tier.bg, color: "white" }}>
                   <span>{tier.icon}</span>
                   <span>{currentUser.tier.name}</span>
                 </div>
-                <p className="text-green-300 text-xs mt-1.5">{currentUser.tier.multiplier}× multiplier</p>
+                <p className="text-indigo-300 text-xs mt-1.5">{currentUser.tier.multiplier}× multiplier</p>
               </div>
             </div>
 
             {/* Progress Bar */}
             {currentUser.tier.level < 3 ? (
               <div>
-                <div className="flex justify-between text-xs text-green-200 mb-2">
+                <div className="flex justify-between text-xs text-indigo-200 mb-2">
                   <span>Progress ke Tier {currentUser.tier.level + 1}</span>
                   <span>{currentUser.points.toLocaleString("id-ID")} / {nextTierPoints.toLocaleString("id-ID")}</span>
                 </div>
                 <div className="progress-track">
                   <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
                 </div>
-                <p className="text-green-300 text-xs mt-1.5">
+                <p className="text-indigo-300 text-xs mt-1.5">
                   Butuh <span className="font-bold text-yellow-300">{(nextTierPoints - currentUser.points).toLocaleString("id-ID")} poin</span> lagi untuk naik tier
                 </p>
               </div>
@@ -114,12 +114,12 @@ export default function DashboardPage() {
           {myRtEntry && (
             <div className="flex items-center gap-3 p-3 rounded-xl" style={{ background: "rgba(255,255,255,0.08)" }}>
               <Trophy size={16} className="text-yellow-300" />
-              <p className="text-green-200 text-sm">
+              <p className="text-indigo-200 text-sm">
                 <span className="font-bold text-white">{currentUser.rt}</span> berada di
                 <span className="font-extrabold text-yellow-300"> #{myRtEntry.rank}</span> leaderboard
               </p>
               <Link href="/leaderboard" className="ml-auto">
-                <ArrowRight size={16} className="text-green-300" />
+                <ArrowRight size={16} className="text-indigo-300" />
               </Link>
             </div>
           )}
@@ -128,9 +128,19 @@ export default function DashboardPage() {
 
       {/* ─── QUICK ACTIONS ─── */}
       <div className="px-5 mt-6">
+        <div className="grid grid-cols-1 gap-3 mb-3">
+          <Link href="/profile" className="kop-card flex items-center gap-3 p-4 bg-yellow-50 border-yellow-100 hover:bg-yellow-100/50 transition">
+            <div className="w-10 h-10 rounded-xl bg-yellow-600 text-white flex items-center justify-center font-bold">👤</div>
+            <div>
+              <p className="text-xs font-bold text-[#3a3a3a]">Profil & Estimasi SHU</p>
+              <p className="text-[10px] text-gray-500">Lihat bagi hasil berdasarkan kontribusi poin partisipasi aktif Anda</p>
+            </div>
+          </Link>
+        </div>
+
         <div className="grid grid-cols-4 gap-3 stagger">
           {[
-            { href: "/belanja", icon: <ShoppingCart size={22} />, label: "Belanja", color: "#1a5c2a", bg: "#dcfce7" },
+            { href: "/belanja", icon: <ShoppingCart size={22} />, label: "Belanja", color: "#463cd8", bg: "#dcfce7" },
             { href: "/misi", icon: <Target size={22} />, label: "Misi", color: "#d97706", bg: "#fef3c7", badge: activeMissions },
             { href: "/leaderboard", icon: <Trophy size={22} />, label: "Peringkat", color: "#7c3aed", bg: "#ede9fe" },
             { href: "/profile", icon: <User size={22} />, label: "Profil", color: "#0891b2", bg: "#e0f2fe" },
@@ -156,7 +166,7 @@ export default function DashboardPage() {
       <div className="px-5 mt-5">
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: "Transaksi", value: transactions.length, icon: <ShoppingCart size={16} />, color: "#1a5c2a" },
+            { label: "Transaksi", value: transactions.length, icon: <ShoppingCart size={16} />, color: "#463cd8" },
             { label: "Misi Selesai", value: missions.filter(m => !m.isActive).length, icon: <Target size={16} />, color: "#d97706" },
             { label: "Bobot SHU", value: `${shuBobot}%`, icon: <Gift size={16} />, color: "#7c3aed" },
           ].map((s) => (
@@ -164,7 +174,7 @@ export default function DashboardPage() {
               <div className="inline-flex items-center justify-center w-8 h-8 rounded-full mb-2" style={{ background: `${s.color}18`, color: s.color }}>
                 {s.icon}
               </div>
-              <p className="text-xl font-extrabold text-gray-900">{s.value}</p>
+              <p className="text-xl font-extrabold text-[#3a3a3a]">{s.value}</p>
               <p className="text-[10px] text-gray-500 font-medium">{s.label}</p>
             </div>
           ))}
@@ -178,10 +188,10 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Zap size={18} className="text-yellow-500" />
-                <h3 className="font-bold text-gray-800">Misi Aktif</h3>
+                <h3 className="font-bold text-[#3a3a3a]">Misi Aktif</h3>
                 <span className="px-2 py-0.5 bg-yellow-100 text-yellow-700 text-xs font-bold rounded-full">{activeMissions}</span>
               </div>
-              <Link href="/misi" className="text-xs font-bold text-green-700 flex items-center gap-1">
+              <Link href="/misi" className="text-xs font-bold text-indigo-700 flex items-center gap-1">
                 Lihat <ArrowRight size={12} />
               </Link>
             </div>
@@ -189,7 +199,7 @@ export default function DashboardPage() {
               {missions.filter(m => m.isActive).slice(0, 2).map(m => (
                 <div key={m.id} className="flex items-center justify-between py-2 border-b border-yellow-100 last:border-0">
                   <span className="text-sm text-gray-700">{m.title}</span>
-                  <span className="text-xs font-bold text-green-700 bg-green-50 px-2 py-0.5 rounded-full">+{m.reward} pts</span>
+                  <span className="text-xs font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full">+{m.reward} pts</span>
                 </div>
               ))}
             </div>
@@ -200,8 +210,8 @@ export default function DashboardPage() {
       {/* ─── RECENT TRANSACTIONS ─── */}
       <div className="px-5 mt-5">
         <div className="flex justify-between items-center mb-3">
-          <h3 className="font-bold text-gray-800">Aktivitas Terakhir</h3>
-          <Link href="/belanja" className="text-xs font-bold text-green-700 flex items-center gap-1">
+          <h3 className="font-bold text-[#3a3a3a]">Aktivitas Terakhir</h3>
+          <Link href="/belanja" className="text-xs font-bold text-indigo-700 flex items-center gap-1">
             Belanja <ArrowRight size={12} />
           </Link>
         </div>
@@ -211,13 +221,13 @@ export default function DashboardPage() {
               <div className="text-4xl mb-3">🛒</div>
               <p className="text-sm text-gray-500 font-medium">Belum ada transaksi</p>
               <p className="text-xs text-gray-400 mt-1">Mulai belanja untuk mengumpulkan poin!</p>
-              <Link href="/belanja" className="inline-block mt-4 text-xs font-bold text-green-700 underline">Belanja sekarang →</Link>
+              <Link href="/belanja" className="inline-block mt-4 text-xs font-bold text-indigo-700 underline">Belanja sekarang →</Link>
             </div>
           ) : (
             <div className="divide-y divide-gray-50">
               {myTransactions.map((tx, i) => {
                 const typeMap: Record<string, { icon: string; label: string; color: string }> = {
-                  shopping: { icon: "🛒", label: "Belanja", color: "#1a5c2a" },
+                  shopping: { icon: "🛒", label: "Belanja", color: "#463cd8" },
                   mission: { icon: "🎯", label: "Misi", color: "#d97706" },
                   referral: { icon: "🤝", label: "Referral", color: "#7c3aed" },
                 };
@@ -229,7 +239,7 @@ export default function DashboardPage() {
                       {t.icon}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-gray-800">{t.label}</p>
+                      <p className="text-sm font-semibold text-[#3a3a3a]">{t.label}</p>
                       <p className="text-xs text-gray-400">{new Date(tx.date).toLocaleDateString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</p>
                     </div>
                     <div className="text-right flex-shrink-0">
@@ -288,13 +298,13 @@ function BottomNav({ active }: { active: string }) {
               className="flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all"
               style={{ minWidth: 52 }}
             >
-              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
+              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(70,60,216,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#463cd8" : "#9ca3af" }}>
                 {item.label}
               </span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+              {isActive && <div className="w-1 h-1 rounded-full bg-indigo-600" />}
             </Link>
           );
         })}

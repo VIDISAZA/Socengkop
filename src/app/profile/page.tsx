@@ -115,7 +115,7 @@ export default function ProfilePage() {
         <Link href="/dashboard" className="p-2 hover:bg-gray-100 rounded-xl transition">
           <ArrowLeft size={20} className="text-gray-700" />
         </Link>
-        <h1 className="font-extrabold text-lg text-gray-900 flex-1">Profil Anggota</h1>
+        <h1 className="font-extrabold text-lg text-[#3a3a3a] flex-1">Profil Anggota</h1>
         <button
           onClick={() => {
             logout();
@@ -130,25 +130,25 @@ export default function ProfilePage() {
       <div className="p-5 space-y-6">
         {/* User Card info */}
         <div className="kop-card p-5 flex gap-4 items-center">
-          <div className="w-16 h-16 rounded-2xl bg-green-700 text-white font-black text-2xl flex items-center justify-center">
+          <div className="w-16 h-16 rounded-2xl bg-indigo-700 text-white font-black text-2xl flex items-center justify-center">
             {currentUser.name.charAt(0)}
           </div>
           <div>
-            <h3 className="font-extrabold text-gray-900 text-base">{currentUser.name}</h3>
+            <h3 className="font-extrabold text-[#3a3a3a] text-base">{currentUser.name}</h3>
             <p className="text-xs text-gray-400 font-medium">Bergabung sejak: 2025</p>
-            <span className="text-[10px] font-extrabold text-green-700 bg-green-50 px-2 py-0.5 rounded-full inline-block mt-2">
+            <span className="text-[10px] font-extrabold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full inline-block mt-2">
               {currentUser.rt} · {currentUser.tierName}
             </span>
           </div>
         </div>
 
         {/* ─── REFERRAL CARD ─── */}
-        <div className="kop-card p-5" style={{ background: "linear-gradient(135deg, #0d3318 0%, #1a5c2a 100%)", color: "white" }}>
+        <div className="kop-card p-5" style={{ background: "linear-gradient(135deg, #1a1464 0%, #463cd8 100%)", color: "white" }}>
           <div className="flex items-center gap-2 mb-3">
             <Gift size={18} className="text-yellow-400 animate-float" />
             <h4 className="font-bold text-sm text-white">Kode Referral Gotong Royong</h4>
           </div>
-          <p className="text-[11px] text-green-200 mb-4 leading-relaxed">
+          <p className="text-[11px] text-indigo-200 mb-4 leading-relaxed">
             Undang tetangga terdekat Anda untuk bergabung. Dapatkan poin keaktifan instan segera setelah profil mereka terverifikasi!
           </p>
 
@@ -156,7 +156,7 @@ export default function ProfilePage() {
             <code className="font-mono font-bold text-sm tracking-wider">{getReferralCode()}</code>
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs font-bold bg-white text-green-800 px-3.5 py-2 rounded-lg hover:bg-gray-100 transition active:scale-95"
+              className="flex items-center gap-1.5 text-xs font-bold bg-white text-indigo-800 px-3.5 py-2 rounded-lg hover:bg-gray-100 transition active:scale-95"
             >
               {copied ? (
                 <>
@@ -174,21 +174,21 @@ export default function ProfilePage() {
         {/* ─── SHU ESTIMATOR ─── */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <Shield size={16} className="text-green-700" />
+            <Shield size={16} className="text-indigo-700" />
             <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Simulasi Sisa Hasil Usaha (SHU)</h3>
           </div>
 
           <div className="kop-card p-5">
             {loadingSHU ? (
               <div className="flex flex-col items-center justify-center py-10 gap-2">
-                <div className="w-8 h-8 border-3 border-green-200 border-t-green-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
+                <div className="w-8 h-8 border-3 border-indigo-200 border-t-indigo-600 rounded-full" style={{ borderWidth: 3, animation: "spin-slow 0.8s linear infinite" }} />
                 <p className="text-xs text-gray-400">Menghitung SHU...</p>
               </div>
             ) : shuData ? (
               <div>
                 <div className="flex justify-between items-start mb-4 border-b border-gray-100 pb-3">
                   <div>
-                    <h4 className="font-extrabold text-gray-900 text-sm">Estimasi SHU Anggota {shuData.year}</h4>
+                    <h4 className="font-extrabold text-[#3a3a3a] text-sm">Estimasi SHU Anggota {shuData.year}</h4>
                     <p className="text-[10px] text-gray-400 font-medium">Berdasarkan kontribusi poin partisipasi aktif</p>
                   </div>
                   <span className="text-[10px] font-black text-white bg-yellow-500 px-2 py-0.5 rounded-full uppercase tracking-wider">
@@ -198,18 +198,18 @@ export default function ProfilePage() {
 
                 <div className="text-center py-4 bg-gray-50 rounded-2xl border border-gray-100 mb-4">
                   <p className="text-[10px] text-gray-500 font-bold uppercase tracking-wider mb-1">Estimasi Payout Bonus Anda</p>
-                  <p className="text-3xl font-black text-green-700">Rp {shuData.shuAmount.toLocaleString("id-ID")}</p>
+                  <p className="text-3xl font-black text-indigo-700">Rp {shuData.shuAmount.toLocaleString("id-ID")}</p>
                   <p className="text-[10px] text-gray-400 font-semibold mt-1">Bobot Share: {(shuData.weight * 100).toFixed(1)}%</p>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Total SHU Koperasi Desa:</span>
-                    <span className="font-bold text-gray-800">Rp {shuData.totalSHU.toLocaleString("id-ID")}</span>
+                    <span className="font-bold text-[#3a3a3a]">Rp {shuData.totalSHU.toLocaleString("id-ID")}</span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Alokasi Bagian Anggota ({shuData.distribution.members}%):</span>
-                    <span className="font-bold text-gray-800">Rp {((shuData.totalSHU * shuData.distribution.members) / 100).toLocaleString("id-ID")}</span>
+                    <span className="font-bold text-[#3a3a3a]">Rp {((shuData.totalSHU * shuData.distribution.members) / 100).toLocaleString("id-ID")}</span>
                   </div>
                   <div className="flex justify-between text-xs text-gray-500">
                     <span>Formula SHU:</span>
@@ -228,7 +228,7 @@ export default function ProfilePage() {
         {/* ─── LEAGUE TIER GUIDE ─── */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <Star size={16} className="text-green-700" />
+            <Star size={16} className="text-indigo-700" />
             <h3 className="text-xs font-bold text-gray-500 uppercase tracking-wider">Liga Pahlawan Lokal (Vernacular League)</h3>
           </div>
 
@@ -247,9 +247,9 @@ export default function ProfilePage() {
                   <div className="absolute right-4 top-4 text-4xl opacity-15">{tier.badge}</div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-lg">{tier.badge}</span>
-                    <h4 className="font-extrabold text-gray-900 text-sm">{tier.name}</h4>
+                    <h4 className="font-extrabold text-[#3a3a3a] text-sm">{tier.name}</h4>
                     {isCurrent && (
-                      <span className="text-[9px] font-black text-white bg-green-700 px-2 py-0.5 rounded-full uppercase tracking-wider">
+                      <span className="text-[9px] font-black text-white bg-indigo-700 px-2 py-0.5 rounded-full uppercase tracking-wider">
                         Aktif
                       </span>
                     )}
@@ -304,13 +304,13 @@ function BottomNav({ active }: { active: string }) {
               className="flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all"
               style={{ minWidth: 52 }}
             >
-              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(26,92,42,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
+              <span className="text-xl" style={{ filter: isActive ? "drop-shadow(0 0 8px rgba(70,60,216,0.5))" : "none", transform: isActive ? "scale(1.2)" : "scale(1)", transition: "all 0.2s" }}>
                 {item.icon}
               </span>
-              <span className="text-[10px] font-bold" style={{ color: isActive ? "#1a5c2a" : "#9ca3af" }}>
+              <span className="text-[10px] font-bold" style={{ color: isActive ? "#463cd8" : "#9ca3af" }}>
                 {item.label}
               </span>
-              {isActive && <div className="w-1 h-1 rounded-full bg-green-600" />}
+              {isActive && <div className="w-1 h-1 rounded-full bg-indigo-600" />}
             </Link>
           );
         })}

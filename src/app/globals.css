@@ -2,15 +2,24 @@
 @import "tailwindcss";
 
 :root {
-  --kop-green: #1a5c2a;
-  --kop-green-light: #2d8a47;
-  --kop-green-xlight: #e8f5e9;
+  /* ── Primary: Blue #463cd8 ── */
+  --kop-green: #463cd8;
+  --kop-green-light: #5f55e8;
+  --kop-green-xlight: #ede8ff;
+
+  /* ── Accent: Gold ── */
   --kop-gold: #f59e0b;
   --kop-gold-light: #fef3c7;
+
+  /* ── Danger ── */
   --kop-red: #dc2626;
-  --kop-bg: #f0f4f1;
+
+  /* ── Surfaces ── */
+  --kop-bg: #f2f3fa;
   --kop-surface: #ffffff;
-  --kop-text: #111827;
+
+  /* ── Text ── */
+  --kop-text: #3a3a3a;
   --kop-muted: #6b7280;
   --kop-border: #e5e7eb;
   --font-main: 'Plus Jakarta Sans', sans-serif;
@@ -62,8 +71,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(26, 92, 42, 0.3); }
-  50% { box-shadow: 0 0 0 12px rgba(26, 92, 42, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(70, 60, 216, 0.3); }
+  50% { box-shadow: 0 0 0 12px rgba(70, 60, 216, 0); }
 }
 
 @keyframes shimmer {
@@ -131,14 +140,14 @@ body {
    GRADIENT BACKGROUNDS
    ================================ */
 .bg-kop-gradient {
-  background: linear-gradient(135deg, #1a5c2a 0%, #2d8a47 50%, #1a5c2a 100%);
+  background: linear-gradient(135deg, #2d24b0 0%, #463cd8 50%, #2d24b0 100%);
 }
 
 .bg-kop-hero {
   background: 
     radial-gradient(ellipse at top right, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse at bottom left, rgba(45, 138, 71, 0.2) 0%, transparent 50%),
-    linear-gradient(135deg, #1a5c2a 0%, #14532d 100%);
+    radial-gradient(ellipse at bottom left, rgba(95, 85, 232, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #2d24b0 0%, #463cd8 100%);
 }
 
 .bg-gold-gradient {
@@ -184,15 +193,15 @@ body {
 
 .kop-card-hover:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 24px rgba(26, 92, 42, 0.12);
-  border-color: rgba(26, 92, 42, 0.2);
+  box-shadow: 0 4px 24px rgba(70, 60, 216, 0.12);
+  border-color: rgba(70, 60, 216, 0.2);
 }
 
 /* ================================
    BUTTONS
    ================================ */
 .btn-primary {
-  background: linear-gradient(135deg, #1a5c2a, #2d8a47);
+  background: linear-gradient(135deg, #2d24b0, #463cd8);
   color: white;
   font-weight: 700;
   border-radius: 14px;
@@ -200,7 +209,7 @@ body {
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(26, 92, 42, 0.3);
+  box-shadow: 0 4px 16px rgba(70, 60, 216, 0.3);
   width: 100%;
   font-size: 15px;
   font-family: var(--font-main);
@@ -208,7 +217,7 @@ body {
 
 .btn-primary:hover { 
   transform: translateY(-1px); 
-  box-shadow: 0 6px 20px rgba(26, 92, 42, 0.4);
+  box-shadow: 0 6px 20px rgba(70, 60, 216, 0.4);
 }
 
 .btn-primary:active { transform: scale(0.97); }

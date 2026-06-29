@@ -42,4 +42,16 @@ router.get('/product/:id', productController.getProductById);
 router.get('/shu', shuController.getSHUData);
 router.get('/shu/user', shuController.getUserSHU);
 
+// ============ ADMIN ROUTES ============
+const adminController = require('../controllers/adminController');
+router.get('/admin/supply-chain', adminController.getSupplyChain);
+router.get('/admin/financials', adminController.getFinancials);
+router.get('/admin/participation', adminController.getParticipation);
+router.post('/admin/check-expiry', adminController.checkPointExpiry);
+
+// ============ SIMULATOR ROUTES ============
+router.post('/admin/simulate/supply-chain', adminController.simulateSupplyChain);
+router.post('/admin/simulate/financial', adminController.simulateFinancial);
+router.post('/admin/simulate/participation', adminController.simulateParticipation);
+
 module.exports = router;

@@ -195,9 +195,48 @@ export function AppProvider({ children }: { children: ReactNode }) {
     fetchTransactions();
   }, [currentUser?.id]);
 
-  const login = (userId: number) => {
+  const login = async (userId: number) => {
+    if (userId === 999) {
+      setCurrentUser({
+        id: 999,
+        name: "Admin Koperasi",
+        rt: "Pusat Desa",
+        points: 0,
+        tier: { level: 3, name: "Kamadeva Widya", multiplier: 2.0 },
+        tierName: "Pengurus",
+        multiplier: 2.0
+      });
+      return;
+    }
+
     const user = users.find((u) => u.id === userId);
-    if (user) setCurrentUser(user);
+    if (user) {
+      setCurrentUser(user);
+      try {
+        // Trigger backend check for points expiry
+        const res = await fetch(`${API_BASE}/admin/check-expiry`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId })
+        });
+        const data = await res.json();
+        if (data.success && data.expired) {
+          alert(`⚠️ Perhatian! Poin Anda sebesar ${data.expiredPoints.toLocaleString("id-ID")} pts telah HANGUS karena tidak ada transaksi dalam 30 hari terakhir.`);
+          // Reload users list to show updated points
+          const usersRes = await fetch(`${API_BASE}/users`);
+          const usersData = await usersRes.json();
+          if (usersData.success) {
+            const mapped = usersData.data.map(mapApiUser);
+            setUsers(mapped);
+            const updatedCur = mapped.find((u: User) => u.id === userId);
+            if (updatedCur) setCurrentUser(updatedCur);
+            setLeaderboard(recalculateLeaderboard(mapped));
+          }
+        }
+      } catch (err) {
+        console.warn("Inactivity expiration check failed", err);
+      }
+    }
   };
 
   const logout = () => {
